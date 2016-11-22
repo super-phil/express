@@ -201,7 +201,7 @@
                 {"data": "type", "title": "类型"},
                 {"data": "price", "title": "价格"},
                 {
-                    "data": "createTime", "title": "时间",
+                    "data": "create_time", "title": "时间",
                     "render": function (data, type, row) {
                         return new Date(data).format("yyyy-MM-dd HH:mm:ss");
                     }
@@ -238,9 +238,7 @@
 //                dataType: 'json',
                 success: function (result) {
                     console.info(result)
-                    if (result.code != 0) {
-                        swal(result.msg);
-                    }
+                    swal(result.msg, "", "success");
                 }
             })
         });
