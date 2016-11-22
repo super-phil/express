@@ -88,7 +88,7 @@ public class CentralController {
     @RequestMapping(value="list", method=RequestMethod.GET)
     public Object list(DTRequest dtRequest, @RequestParam("search[value]") String q) {
         dtRequest.setQ(q);
-        return expressService.findAllWhereNumberLike(dtRequest);
+        return expressService.findByNumberLike(dtRequest);
     }
     
     

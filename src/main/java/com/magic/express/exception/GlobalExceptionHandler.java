@@ -1,4 +1,4 @@
-package com.magic.express.error;
+package com.magic.express.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
         * 返回视图：
         * 定义一个ModelAndView即可，
         * 然后return;
-        * 定义视图文件(比如：error.html,error.ftl,error.jsp);
+        * 定义视图文件(比如：exception.html,exception.ftl,exception.jsp);
         *
         */
        
