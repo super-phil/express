@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SpringBootApplication
 @Controller
 public class App {
+    @RequestMapping("/test")
+    public String test() {
+        return "charts";
+    }
     @RequestMapping("/list")
     public String list() {
         return "welcome";
@@ -19,7 +23,7 @@ public class App {
     public String charts() {
         return "charts";
     }
-
+    
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
         System.out.println("Hello World!");

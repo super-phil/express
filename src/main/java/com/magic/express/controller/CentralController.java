@@ -2,11 +2,9 @@ package com.magic.express.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import com.magic.express.exception.BusinessException;
 import com.magic.express.model.DTRequest;
 import com.magic.express.model.Express;
 import com.magic.express.service.ExpressService;
-import com.magic.utils.database.DBUtils;
 import com.magic.utils.excel.ExcelUtils;
 import com.magic.utils.qiniu.QiNiuUtils;
 import org.joda.time.DateTime;
@@ -113,19 +111,6 @@ public class CentralController {
             if(file != null){
                 file.deleteOnExit();
             }
-        }
-        JSONObject jo=new JSONObject();
-        jo.put("code", 0);
-        jo.put("msg", "成功");
-        return jo;
-    }
-    
-    @RequestMapping(value="db/backup", method=RequestMethod.POST)
-    public Object url() {
-        try{
-            DBUtils.backup("/root/phil", "express", "root", "1Q2w3e4r");
-        }catch(Exception e){
-            throw new BusinessException(e.getMessage());
         }
         JSONObject jo=new JSONObject();
         jo.put("code", 0);
