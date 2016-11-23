@@ -123,7 +123,7 @@ public class CentralController {
     @RequestMapping(value="db/backup", method=RequestMethod.POST)
     public Object url() {
         try{
-            DBUtils.backup("/root/phil", "express", "yz_data", "qwe!@#123");
+            DBUtils.backup("/root/phil", "express", "root", "1Q2w3e4r");
         }catch(Exception e){
             throw new BusinessException(e.getMessage());
         }
