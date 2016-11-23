@@ -80,14 +80,23 @@ public class ExpressDao {
      */
     public DTResponse<Map<String,Object>> findByNumberLike(DTRequest dtRequest) throws BusinessException {
         String q="%"+dtRequest.getQ()+"%";
-        String s="SELECT * FROM express WHERE number LIKE ? ORDER BY type DESC ,create_time DESC,price DESC";
+        String qs="SELECT * FROM express WHERE number LIKE ? ORDER BY type DESC ,create_time DESC,price DESC LIMIT ?,?";
+        String qc="SELECT count(1) FROM express WHERE number LIKE ? ";
+        
         try{
-            List<Map<String,Object>> mapList=jdbcTemplate.queryForList(s, new Object[]{q});
+            Integer count=jdbcTemplate.queryForObject(qc, new Object[]{q}, Integer.class);
             DTResponse<Map<String,Object>> response=new DTResponse<>();
-            response.setRecordsTotal(mapList.size());
-            response.setRecordsFiltered(mapList.size());
+            if(count != null && count>0){
+                List<Map<String,Object>> mapList=jdbcTemplate.queryForList(qs, new Object[]{q, dtRequest.getStart(), dtRequest.getLength()});
+                response.setRecordsTotal(count);
+                response.setRecordsFiltered(count);
+                response.setData(mapList);
+            }else{
+                response.setRecordsTotal(0);
+                response.setRecordsFiltered(0);
+                response.setData(null);
+            }
             response.setDraw(dtRequest.getDraw());
-            response.setData(mapList);
             return response;
         }catch(Exception e){
             throw new BusinessException(e.getMessage());
