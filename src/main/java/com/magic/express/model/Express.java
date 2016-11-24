@@ -1,5 +1,6 @@
 package com.magic.express.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,6 +30,8 @@ public class Express  implements Serializable {
     private String url;
     @Column(name="create_time")
     private Date createTime;
+    
+    @JSONField(serialize=false)//前台不显示
     @Column(name="update_time")
     private Date updateTime;
 }
