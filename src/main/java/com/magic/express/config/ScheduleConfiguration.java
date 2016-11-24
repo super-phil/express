@@ -23,10 +23,6 @@ public class ScheduleConfiguration {
     private static final Logger logger=Logger.getLogger(ScheduleConfiguration.class);
     @Resource
     private EmailService emailService;
-    @Scheduled(cron = "0/20 * * * * ?") // 每20秒执行一次
-    public void scheduler() {
-        System.out.println(">>>>>>>>> ScheduleConfiguration.scheduler()");
-    }
     
     @Value("${express.backup.path}")
     private String backupPath;

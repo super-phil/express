@@ -46,6 +46,28 @@ public class CentralController {
         List<Object> cell;//表头
         if(rows != null && rows.size()>0){
             cell=rows.get(0);
+            //线验证文件在不
+            for(int k=1; k<rows.size(); k++){
+                for(int j=0; j<cell.size(); j++){
+                    String key=(String) cell.get(j);
+                    String v=(String) rows.get(k).get(j);
+                    switch(key){
+                        case "img":
+                            String fileName="C:\\Users\\Phil\\Desktop\\"+date+"\\IMG_"+date+"_"+v+".jpg";
+                            File f=new File(fileName);
+                            if(f.exists()){//如果存在
+                                String time=date+v;
+                                DateTime dateTime=DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(time);
+                                System.out.println(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
+                            }else{
+                                throw new RuntimeException("文件不存在:"+f.getName());
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
             for(int i=1; i<rows.size(); i++){
                 Express express=new Express();
                 for(int j=0; j<cell.size(); j++){
@@ -74,7 +96,6 @@ public class CentralController {
                             }
                             break;
                         default:
-                            System.out.println(k);
                             break;
                     }
                 }
