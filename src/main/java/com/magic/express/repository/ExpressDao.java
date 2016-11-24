@@ -11,9 +11,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -28,32 +28,28 @@ public class ExpressDao {
     private JdbcTemplate jdbcTemplate;
     
     public void save(List<Express> list) throws BusinessException {
-        try{
-            list.forEach(this::insert);
-        }catch(Exception e){
-            throw new BusinessException(e.getMessage());
-        }
+        list.forEach(this::insert);
     }
     
     public void save(Express express) throws BusinessException {
+        insert(express);
+    }
+    
+    private void insert(Express express) throws BusinessException {
+        KeyHolder keyHolder=new GeneratedKeyHolder();
         try{
-            insert(express);
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement=connection.prepareStatement("INSERT INTO express1 (number,url,type,price,create_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, express.getNumber());
+                statement.setString(2, express.getUrl());
+                statement.setString(3, express.getType());
+                statement.setInt(4, express.getPrice());
+                statement.setTimestamp(5, new Timestamp(express.getCreateTime().getTime()));
+                return statement;
+            }, keyHolder);
         }catch(Exception e){
             throw new BusinessException(e.getMessage());
         }
-    }
-    
-    private void insert(Express express) {
-        KeyHolder keyHolder=new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement statement=connection.prepareStatement("INSERT INTO express (number,url,type,price,create_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, express.getNumber());
-            statement.setString(2, express.getUrl());
-            statement.setString(3, express.getType());
-            statement.setInt(4, express.getPrice());
-            statement.setDate(5, new Date(express.getCreateTime().getTime()));
-            return statement;
-        }, keyHolder);
         express.setId(keyHolder.getKey().longValue());
     }
     

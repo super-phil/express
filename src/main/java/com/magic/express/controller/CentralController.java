@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,7 @@ public class CentralController {
                                 DateTime dateTime=DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(time);
                                 express.setCreateTime(dateTime.toDate());
                                 express.setUrl(QiNiuUtils.upload(f));
+                                //express.setUrl("http://ognsbr72y.bkt.clouddn.com/"+f.getName());
                             }else{
                                 throw new RuntimeException("文件不存在:"+f.getName());
                             }
@@ -116,15 +118,16 @@ public class CentralController {
     @RequestMapping(value="save", method=RequestMethod.POST)
     public Object save(Express express, @RequestParam("time") String time, @RequestParam(value="file", required=false) MultipartFile multipartFile) {
         File file=null;
-        DateTime dateTime=DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(time);
+       // DateTime dateTime=DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(time);
         try{
             if(multipartFile != null){
                 String filename=multipartFile.getOriginalFilename();
                 file=File.createTempFile(filename, null);
                 multipartFile.transferTo(file);
-                express.setUrl(QiNiuUtils.upload(file, filename));
+//                express.setUrl(QiNiuUtils.upload(file, filename));
             }
-            express.setCreateTime(dateTime.toDate());
+//            express.setCreateTime(dateTime.toDate());
+            express.setCreateTime(new Date());
             expressService.save(express);
         }catch(IOException e){
             e.printStackTrace();
