@@ -19,27 +19,29 @@ import java.util.Map;
 public class ExpressService {
     @Resource
     private ExpressDao expressDao;
+
     public void save(Express express) {
         expressDao.save(express);
     }
-    
+
     public void save(List<Express> express) {
         expressDao.save(express);
     }
-    
+
     /**
      * 根据快递号分页
      *
      * @param dtRequest 分页参数
+     * @param type 收款类型
      * @return
      */
-    public DTResponse<Map<String,Object>> findByNumberLike(DTRequest dtRequest) {
-        return expressDao.findByNumberLike(dtRequest);
+    public DTResponse<Map<String, Object>> findByQ(DTRequest dtRequest, String type) {
+        return expressDao.findByQ(dtRequest, type);
     }
-    
-    public List<Map<String,Object>> chartsPrice(int days) {
+
+    public List<Map<String, Object>> chartsPrice(int days) {
         return expressDao.chartsPrice(days);
     }
-    
-    
+
+
 }

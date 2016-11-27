@@ -7,33 +7,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Hello world!
  */
 @SpringBootApplication
-@Controller
 public class App {
-    @RequestMapping("/test")
-    public String test() {
-        return "charts";
-    }
-    @RequestMapping("/list")
-    public String list() {
-        return "welcome";
-    }
-    @RequestMapping("/")
-    public String charts() {
-        return "charts";
-    }
-    
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
         System.out.println("Hello World!");
     }
-    
+
     /**
      * 使用fastJson
      *
@@ -41,8 +25,8 @@ public class App {
      */
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
-        FastJsonHttpMessageConverter fastConverter=new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig=new FastJsonConfig();
+        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
         fastConverter.setFastJsonConfig(fastJsonConfig);
         //        HttpMessageConverter<?> converter = fastConverter;

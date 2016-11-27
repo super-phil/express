@@ -12,14 +12,22 @@ import java.util.Date;
  *          Express 快递
  */
 @Data
-public class Express  implements Serializable {
-    private static final long serialVersionUID=8612338914410162714L;
+public class Express implements Serializable {
+    private static final long serialVersionUID = 8612338914410162714L;
     private long id;
     private String number;
+    /**
+     * <option value="x">现金</option>
+     * <option value="y">月结</option>
+     * <option value="w">微信</option>
+     * <option value="q">欠款</option>
+     * <option value="d">代收</option>
+     */
     private String type;
     private int price;
+    @JSONField(serialize = false)//前台不显示
     private String url;
     private Date createTime;
-    @JSONField(serialize=false)//前台不显示
+    @JSONField(serialize = false)//前台不显示
     private Date updateTime;
 }
