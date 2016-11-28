@@ -42,6 +42,22 @@ public class ExpressService {
     public List<Map<String, Object>> chartsPrice(int days) {
         return expressDao.chartsPrice(days);
     }
-
-
+    
+    
+    public List<Map<String,Object>> chartByType() {
+        return expressDao.chartByType();
+    }
+    
+    public void del(String id) {
+        expressDao.del(id);
+    }
+    
+    /**
+     * 变更欠款到现金
+     *
+     * @param id id
+     */
+    public void updateTypeToX(String id) {
+        expressDao.updateTypeToX(id);
+    }
 }

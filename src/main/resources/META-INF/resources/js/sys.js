@@ -269,6 +269,18 @@ sys.operationByClass = function (clazz, callback) {
         callback(oThis);
     });
 };
+
+/**
+ * 获取url里参数
+ * @param name
+ * @returns {*}
+ */
+sys.getQueryString = function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null)return decodeURI(r[2]);
+    return null;
+};
 /**
  * 通过 data-click=* 执行方法
  * @param dataClick

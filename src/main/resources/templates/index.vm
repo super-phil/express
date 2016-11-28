@@ -37,10 +37,13 @@
                 </div>
                 <div class="panel-body">
                     <div class="text-center">
-                        <p class="bg-info">现金:100,月结1000,微信:600,欠款:800,代收:1000</p>
+                        <p class="bg-info" id="chart-type"></p>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-xs-4">
+                        <div class="col-md-2 col-xs-2">
+                            <button type="button" class="btn-add btn btn-sm btn-success">添加</button>
+                        </div>
+                        <div class="col-md-4 col-xs-3" style="padding: 0px">
                             <div class="form-group">
                                 <label class="col-md-5 hidden-xs control-label" style="padding-top: 6px">按类型筛选</label>
                                 <div class="col-md-7 col-xs-12" style="padding: 0px">
@@ -56,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-8">
+                        <div class="col-md-6 col-xs-7">
                             <div class="form-group">
                                 <label class="col-md-5 hidden-xs control-label" style="padding-top: 6px">按单号查询</label>
                                 <div class="col-md-7 col-xs-12" style="padding: 0px">
@@ -69,8 +72,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                ##                                    <input type="number" class="form-control" id="form-number" name="number"
-                                ##                                           placeholder="按单号查询">
                                 </div>
                             </div>
                         </div>
@@ -79,7 +80,6 @@
                         <table class="table table-striped table-bordered nowrap">
                             <thead>
                             <tr>
-                            ##                                <th>ID</th>
                                 <th>单号</th>
                                 <th>类型</th>
                                 <th>金额</th>
@@ -87,44 +87,10 @@
                                 <th>操作</th>
                             </tr>
                             </thead>
-                            <tbody>
-                                #foreach($kv in $data)
-                                <tr>
-                                ##                                    <td>$kv.get("id")</td>
-                                    <td>$kv.get("number")</td>
-                                    <td>$kv.get("type")</td>
-                                    <td>$kv.get("price")</td>
-                                    <td>$kv.get('create_time')</td>
-                                    <td></td>
-                                </tr>
-                                #end
-                            </tbody>
+                            <tbody id="table-data"></tbody>
                         </table>
                         <nav>
-                            <ul class="pager">
-                                #if($previous_f)
-                                <li>
-                                    #if($q)
-                                        <a href="/express/index?start=$previous_f&q=$q">上一页</a>
-                                    #elseif($type)
-                                        <a href="/express/index?start=$previous_f&type=$type">上一页</a>
-                                    #else
-                                            <a href="/express/index?start=$previous_f>上一页</a>
-                                        #end
-                                    </li>
-                                #end
-                                #if($next_f)
-                                    <li>
-                                        #if($q)
-                                            <a href="/express/index?start=$next_f&q=$q">下一页</a>
-                            #elseif($type)
-                                <a href="/express/index?start=$next_f&type=$type">下一页</a>
-                            #else
-                                <a href="/express/index?start=$next_f">下一页</a>
-                            #end
-                            </li>
-                            #end
-                            </ul>
+                            <ul class="pager" id="table-pager"></ul>
                         </nav>
                     </div>
                 </div>
@@ -152,7 +118,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">类型</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="type">
+                            <select class="form-control" id="form-type" name="type">
                                 <option value="x">现金</option>
                                 <option value="y">月结</option>
                                 <option value="w">微信</option>
@@ -164,7 +130,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">价格</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" name="price">
+                            <input type="number" class="form-control" id="form-price" name="price">
                         </div>
                     </div>
                 </div>
@@ -176,41 +142,231 @@
         </div>
     </div>
 </div>
-<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
-    window.qType = function qType() {
-        var objS = document.getElementById("q-select-type");
-        var v = objS.options[objS.selectedIndex].value;
-        window.location.href = "/express/index?start=0&type=" + v;
-    }
-    window.qSearch = function qSearch() {
-        window.location.href = "/express/index?start=0&q=" + $('#q-table-search').val();
-    }
-    function getQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null)return unescape(r[2]);
-        return null;
-    }
-    if (getQueryString("type") != null) {
-        $("#q-select-type").val(getQueryString("type"));
-    } else if (getQueryString("q") != null) {
-        $('#q-table-search').val(getQueryString("q"));
-    }
     $(function () {
+        var previous_f;
+        var next_f;
+        var q;
+        var type;
+        var add_modal = $('#add-modal');
+        add_modal.modal({
+            backdrop: true,
+            show: false,
+            keyboard: true
+        });
+        //添加
+        $('.btn-add').click(function () {
+            add_modal.modal("show");
+        })
+        list();
+        //按快递单号查询
+        window.qSearch = function () {
+            list({'q': $('#q-table-search').val()});
+        }
+        //按类型查询
+        window.qType = function () {
+            var objS = document.getElementById("q-select-type");
+            list({'type': objS.options[objS.selectedIndex].value});
+        }
+        /**
+         * 日期格式化
+         * @param fmt
+         * @returns {*}
+         */
+        Date.prototype.format = function (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        };
+        /**
+         * 保存数据
+         * */
+        $('.add-form-submit').click(function () {
+            var data = {};
+            data.number = $('#form-number').val();
+            if (data.number.length != 12) return swal("单号长度有误,请确认!");
+            data.type = $('#form-type').val();
+            data.price = $('#form-price').val();
+            $.ajax({
+                type: 'POST',
+                url: "/express/save",
+                data: data || {},
+                dataType: 'json',
+                success: function (result) {
+                    add_modal.modal("hide");
+                    swal({
+                        title: "添加成功!",//提示消息
+                        type: "success",//成功类型
+                        timer: 1000,//1.5秒后自动关闭
+                        showConfirmButton: false//不显示确认按钮
+                    });
+                    refresh();
+                    setChart(result);
+                    document.getElementById("add-form").reset();
+                }
+            });
+        })
 
-//            if ($("#form-number").val().length != 12) {
-//                return swal("单号长度有误!");
-//            }
-//            $('#add-form').ajaxSubmit({
-//                url: "/express/save",
-//                success: function (result) {
-//                    console.info(result)
-//                    swal(result.msg, "", "success");
-//                }
-//            })
+        /**
+         *数据统计
+         * */
+        chartType();
+        function chartType() {
+            $.ajax({
+                type: 'GET',
+                url: "/express/chart-type",
+                dataType: 'json',
+                success: function (result) {
+                    setChart(result);
+                }
+            });
+        }
+
+        function setChart(result) {
+            $('#chart-type').empty();
+            var msg = '';
+            $.each(result.data, function (i, v) {
+                msg += v.type + ":" + v.sum + " ";
+            })
+            $('#chart-type').append(msg);
+        }
+
+        /**
+         * 获取数据
+         **/
+        function list(data) {
+            $.ajax({
+                type: 'GET',
+                url: "/express/list",
+                data: data || {},
+                dataType: 'json',
+                success: function (result) {
+                    var trs = '';
+                    $.each(result.data, function (i, v) {
+                        trs += '<tr>';
+//                    trs+='<td>'+v.id+'</td>';
+                        trs += '<td>' + v.number + '</td>';
+                        trs += '<td>' + v.type + '</td>';
+                        trs += '<td>' + v.price + '</td>';
+                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
+                        if (v.type == '欠款') {
+                            trs += '<td><button type="button" class="btn-yes btn btn-xs btn-success" data-id="' + v.id + '">已还</button></td>';
+                            trs += '<td><button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button></td>';
+                        } else {
+                            trs += '<td><button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button></td>';
+                        }
+
+                        trs += '</tr>';
+                    });
+                    var pager = '';
+                    var ext = result.ext;
+                    previous_f = ext.previous_f;
+                    next_f = ext.next_f;
+                    q = ext.q;
+                    type = ext.type;
+                    if (previous_f != undefined) {
+                        if (q != undefined) {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + previous_f + ' data-q=' + q + '>上一页</button></li> ';
+                        } else if (type != undefined) {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + previous_f + ' data-type=' + type + '>上一页</button></li> ';
+                        } else {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + previous_f + '>上一页</button></li> ';
+                        }
+                    }
+                    if (next_f != undefined) {
+                        if (q != undefined) {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + next_f + ' data-q=' + q + '>下一页</button></li>';
+                        } else if (type != undefined) {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + next_f + ' data-type=' + type + '>下一页</button></li>';
+                        } else {
+                            pager += '<li><button class="btn-pager btn btn-xs btn-info" data-start=' + next_f + '>上一页</button></li>';
+                        }
+                    }
+                    $('#table-data').empty();
+                    $('#table-data').append(trs);
+                    $('#table-pager').empty();
+                    $('#table-pager').append(pager);
+                }
+            })
+
+        }
+
+        /**
+         * 分页
+         */
+        $(document).on('click', ".btn-pager", function (e) {
+            var oThis = $(this);
+            var data = {};
+            if (oThis.data('q') != undefined) {
+                data.q = oThis.data('q');
+            }
+            if (oThis.data('type') != undefined) {
+                data.type = oThis.data('type');
+            }
+            if (oThis.data('start') != undefined) {
+                data.start = oThis.data('start');
+            }
+            list(data)
+        });
+        /***
+         * 删除
+         */
+        $(document).on('click', ".btn-del", function (e) {
+            $.ajax({
+                type: 'POST',
+                data: {'id': $(this).data('id')},
+                url: "/express/del",
+                dataType: 'json',
+                success: function (result) {
+                    refresh();
+                    setChart(result);
+                }
+            });
+        });
+        /***
+         * 已还
+         */
+        $(document).on('click', ".btn-yes", function (e) {
+            $.ajax({
+                type: 'POST',
+                data: {'id': $(this).data('id')},
+                url: "/express/yes",
+                dataType: 'json',
+                success: function (result) {
+                    refresh();
+                    setChart(result);
+                }
+            });
+        });
+        function refresh() {
+            var data = {};
+            if (previous_f != undefined) {
+                data.previous_f = previous_f;
+            }
+            if (next_f != undefined) {
+                data.next_f = next_f;
+            }
+            if (q != undefined) {
+                data.q = q;
+            }
+            if (type != undefined) {
+                data.type = type;
+            }
+            list(data);
+        }
     });
 </script>
 </body>

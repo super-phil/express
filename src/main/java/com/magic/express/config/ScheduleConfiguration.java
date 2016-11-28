@@ -24,25 +24,19 @@ public class ScheduleConfiguration {
     @Resource
     private EmailService emailService;
     
-    @Value("${express.backup.path}")
-    private String backupPath;
-    @Value("${express.backup.dbname}")
-    private String dbName;
-    @Value("${spring.datasource.username}")
-    private String dbUser;
-    @Value("${spring.datasource.password}")
-    private String dbPwd;
-    @Value("${spring.mail.username}")
-    private String email;
-    
     /**
      * 每天8点备份数据库并发送邮件
      */
     @Scheduled(cron="0 0 20 * * ?")
     public void backupAndSendEmail() {
+        String backupPath="/root/phil/";
         File file=new File(backupPath+"backup-"+LocalDate.now().toString("yyyy-MM-dd")+".sql");
         try{
+            String dbName="express";
+            String dbUser="root";
+            String dbPwd="1Q2w3e4r";
             DBUtils.backup(file.getPath(), dbName, dbUser, dbPwd);
+            String email="717815@163.com";
             emailService.sendAttachments(email, email, "express数据库备份", "数据库备份请查看附件!", file);
         }catch(Exception e){
             e.printStackTrace();

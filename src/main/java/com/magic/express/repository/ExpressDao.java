@@ -1,5 +1,6 @@
 package com.magic.express.repository;
 
+import com.magic.express.common.Constant;
 import com.magic.express.exception.BusinessException;
 import com.magic.express.model.DTRequest;
 import com.magic.express.model.DTResponse;
@@ -14,7 +15,6 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +40,11 @@ public class ExpressDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO express1 (number,url,type,price,create_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement statement=connection.prepareStatement("INSERT INTO express (number,url,type,price) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, express.getNumber());
                 statement.setString(2, express.getUrl());
                 statement.setString(3, express.getType());
                 statement.setInt(4, express.getPrice());
-                statement.setTimestamp(5, new Timestamp(express.getCreateTime().getTime()));
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
@@ -65,6 +64,20 @@ public class ExpressDao {
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+    
+    /**
+     * 根据类型汇总
+     *
+     * @return
+     */
+    public List<Map<String,Object>> chartByType() {
+        String s="SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY TYPE";
+        try{
+            return jdbcTemplate.queryForList(s);
+        }catch(Exception e){
             throw new BusinessException(e.getMessage());
         }
     }
@@ -106,6 +119,27 @@ public class ExpressDao {
             response.setDraw(dtRequest.getDraw());
             return response;
         } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+    
+    public void del(String id) throws BusinessException {
+        try{
+            jdbcTemplate.update("DELETE FROM express WHERE id=?", id);
+        }catch(Exception e){
+            throw new BusinessException(e.getMessage());
+        }
+    }
+    
+    /**
+     * 变更欠款到现金
+     *
+     * @param id id
+     */
+    public void updateTypeToX(String id) {
+        try{
+            jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", Constant.Type.X.name().toLowerCase(), id);
+        }catch(Exception e){
             throw new BusinessException(e.getMessage());
         }
     }
