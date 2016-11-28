@@ -7,10 +7,6 @@ import com.magic.express.model.DTRequest;
 import com.magic.express.model.DTResponse;
 import com.magic.express.model.Express;
 import com.magic.express.service.ExpressService;
-import com.magic.utils.excel.ExcelUtils;
-import com.magic.utils.qiniu.QiNiuUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -89,81 +84,6 @@ public class CentralController {
         return jo;
     }
     
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    public Object test(@RequestParam("date") String date) {
-
-        //        String date="20161116";
-        String s = "C:\\Users\\Phil\\Desktop\\" + date + ".xlsx";
-        File file = new File(s);
-        if (!file.exists()) {//如果不存在
-            throw new RuntimeException("文件不存在:" + s);
-        }
-        List<List<Object>> rows = ExcelUtils.read(file);
-        List<Express> expressList = Lists.newArrayList();
-        List<Object> cell;//表头
-        if (rows != null && rows.size() > 0) {
-            cell = rows.get(0);
-            //线验证文件在不
-            for (int k = 1; k < rows.size(); k++) {
-                for (int j = 0; j < cell.size(); j++) {
-                    String key = (String) cell.get(j);
-                    String v = (String) rows.get(k).get(j);
-                    switch (key) {
-                        case "img":
-                            String fileName = "C:\\Users\\Phil\\Desktop\\" + date + "\\IMG_" + date + "_" + v + ".jpg";
-                            File f = new File(fileName);
-                            if (f.exists()) {//如果存在
-                                String time = date + v;
-                                DateTime dateTime = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(time);
-                                System.out.println(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
-                            } else {
-                                throw new RuntimeException("文件不存在:" + f.getName());
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            for (int i = 1; i < rows.size(); i++) {
-                Express express = new Express();
-                for (int j = 0; j < cell.size(); j++) {
-                    String k = (String) cell.get(j);
-                    String v = (String) rows.get(i).get(j);
-                    switch (k) {
-                        case "number":
-                            express.setNumber(v);
-                            break;
-                        case "pirce":
-                            express.setPrice(v == null ? 0 : Integer.valueOf(v));
-                            break;
-                        case "type":
-                            express.setType(v == null ? null : v.toLowerCase());
-                            break;
-                        case "img":
-                            String fileName = "C:\\Users\\Phil\\Desktop\\" + date + "\\IMG_" + date + "_" + v + ".jpg";
-                            File f = new File(fileName);
-                            if (f.exists()) {//如果存在
-                                String time = date + v;
-                                DateTime dateTime = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(time);
-                                express.setCreateTime(dateTime.toDate());
-                                express.setUrl(QiNiuUtils.upload(f));
-                                //express.setUrl("http://ognsbr72y.bkt.clouddn.com/"+f.getName());
-                            } else {
-                                throw new RuntimeException("文件不存在:" + f.getName());
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                expressList.add(express);
-            }
-        }
-        expressService.save(expressList);
-        return "成功!";
-    }
-
     @RequestMapping("/chart")
     public ModelAndView chart() {
         return new ModelAndView("charts");

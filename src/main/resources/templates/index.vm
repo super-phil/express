@@ -84,6 +84,7 @@
                                 <th>类型</th>
                                 <th>金额</th>
                                 <th>日期</th>
+                                <th>备注</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -131,6 +132,12 @@
                         <label class="col-sm-2 control-label">价格</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" id="form-price" name="price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="form-desc" name="desc" placeholder="备注">
                         </div>
                     </div>
                 </div>
@@ -200,6 +207,7 @@
             if (data.number.length != 12) return swal("单号长度有误,请确认!");
             data.type = $('#form-type').val();
             data.price = $('#form-price').val();
+            data.desc = $('#form-desc').val();
             $.ajax({
                 type: 'POST',
                 url: "/express/save",
@@ -262,6 +270,7 @@
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
                         trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
+                        trs += '<td>' + v.desc+ '</td>';
                         if (v.type == '欠款') {
                             trs += '<td><button type="button" class="btn-yes btn btn-xs btn-success" data-id="' + v.id + '">已还</button></td>';
                             trs += '<td><button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button></td>';

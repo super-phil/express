@@ -25,8 +25,7 @@ public class Express implements Serializable {
      */
     private String type;
     private int price;
-    @JSONField(serialize = false)//前台不显示
-    private String url;
+    private String desc;
     private Date createTime;
     @JSONField(serialize = false)//前台不显示
     private Date updateTime;

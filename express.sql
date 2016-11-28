@@ -8,15 +8,16 @@ CREATE TABLE `express` (
   `type` VARCHAR(4)
   COLLATE utf8mb4_general_ci DEFAULT NULL
   COMMENT '类型',
-  `url` VARCHAR(512)
+  `desc` VARCHAR(128)
   COLLATE utf8mb4_general_ci DEFAULT NULL
-  COMMENT 'url',
+  COMMENT '备注',
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   COMMENT '创建时间',
   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY (`number`)
+  KEY (`number`),
+  KEY (`type`)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8mb4

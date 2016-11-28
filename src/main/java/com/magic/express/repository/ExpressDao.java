@@ -40,9 +40,9 @@ public class ExpressDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement statement=connection.prepareStatement("INSERT INTO express (number,url,type,price) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement statement=connection.prepareStatement("INSERT INTO express (`number`,`desc`,`type`,`price`) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, express.getNumber());
-                statement.setString(2, express.getUrl());
+                statement.setString(2, express.getDesc());
                 statement.setString(3, express.getType());
                 statement.setInt(4, express.getPrice());
                 return statement;
