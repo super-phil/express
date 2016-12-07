@@ -40,7 +40,7 @@
                         <p class="bg-info" id="chart-type"></p>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-xs-4" style="padding: 0px">
+                        <div class="col-md-4 col-xs-4">
                             <div class="form-group">
                                 <label class="col-md-5 hidden-xs control-label" style="padding-top: 6px">按类型筛选</label>
                                 <div class="col-md-7 col-xs-12" style="padding: 0px">
