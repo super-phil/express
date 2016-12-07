@@ -45,10 +45,18 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                 });
+        //扫码
         findViewById(R.id.home_button_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(HomeActivity.this, CaptureActivity.class), 0);
+            }
+        });
+        //列表
+        findViewById(R.id.home_button_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ListActivity.class));
             }
         });
 
