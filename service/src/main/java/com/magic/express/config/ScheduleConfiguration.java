@@ -30,7 +30,7 @@ public class ScheduleConfiguration {
     @Scheduled(cron="0 0 20 * * ?")
     public void backupAndSendEmail() {
         String backupPath="/root/phil/";
-        File file=new File(backupPath+"backup-"+LocalDate.now().toString("yyyy-MM-dd")+".sql");
+        File file=new File(backupPath+"backup-"+LocalDate.now().toString("yyyy-MM-dd")+".jpg");
         try{
             String dbName="express";
             String dbUser="root";
