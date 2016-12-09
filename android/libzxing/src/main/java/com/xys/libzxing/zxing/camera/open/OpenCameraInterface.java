@@ -19,6 +19,8 @@ package com.xys.libzxing.zxing.camera.open;
 import android.hardware.Camera;
 import android.util.Log;
 
+import java.util.Calendar;
+
 public class OpenCameraInterface {
 
     private static final String TAG = OpenCameraInterface.class.getName();
@@ -68,7 +70,19 @@ public class OpenCameraInterface {
                 camera = Camera.open(0);
             }
         }
-
+        //开启闪光灯 赵秀非
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        if (camera != null && hour > 16) {//4点以后开启闪光灯
+            Camera.Parameters parameters = camera.getParameters();
+            if (Camera.Parameters.FLASH_MODE_OFF.equals(parameters.getFlashMode())) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(parameters);
+            } else if (Camera.Parameters.FLASH_MODE_TORCH.equals(parameters.getFlashMode())) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(parameters);
+            }
+        }
         return camera;
     }
 
