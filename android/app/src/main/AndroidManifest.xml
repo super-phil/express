@@ -24,7 +24,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".RemarkListActivity"></activity>
+        <activity android:name=".RemarkListActivity" />
+        <activity android:name=".RemarkAddActivity"></activity>
     </application>
 
 </manifest>

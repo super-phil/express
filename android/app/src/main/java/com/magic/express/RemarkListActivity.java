@@ -1,5 +1,6 @@
 package com.magic.express;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -25,7 +25,6 @@ public class RemarkListActivity extends AppCompatActivity {
         OkHttpUtils
                 .get()
                 .url("http://123.56.102.224:17051/express/remark-list")
-                .addParams("username", "hyman")
                 .addParams("password", "123")
                 .build()
                 .execute(new StringCallback() {
@@ -37,6 +36,12 @@ public class RemarkListActivity extends AppCompatActivity {
                         RemarkListAdapter adapter = new RemarkListAdapter(RemarkListActivity.this, remarks);
                         ListView listView = (ListView) findViewById(R.id.remark_list_view);
                         listView.setAdapter(adapter);
+                        findViewById(R.id.remark_list_add).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(RemarkListActivity.this, RemarkAddActivity.class));
+                            }
+                        });
                     }
 
                     @Override
@@ -45,15 +50,5 @@ public class RemarkListActivity extends AppCompatActivity {
                     }
 
                 });
-        List<Remark> remarks = Lists.newArrayList();
-        for (int i = 0; i < 15; i++) {
-            Remark remark = new Remark();
-            remark.setId(i);
-            remark.setText("备注_" + i);
-            remarks.add(remark);
-        }
-        RemarkListAdapter adapter = new RemarkListAdapter(RemarkListActivity.this, remarks);
-        ListView listView = (ListView) findViewById(R.id.remark_list_view);
-        listView.setAdapter(adapter);
     }
 }

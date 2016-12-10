@@ -51,6 +51,13 @@
             android:padding="15sp"
             tools:ignore="InefficientWeight" />
 
+        <Spinner
+            android:id="@+id/scan_spinner_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15sp"
+            tools:ignore="InefficientWeight" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

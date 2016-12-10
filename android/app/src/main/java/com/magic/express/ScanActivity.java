@@ -12,11 +12,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,6 +61,47 @@ public class ScanActivity extends AppCompatActivity {
 
             }
         });
+        descEditText = (EditText) findViewById(R.id.scan_edit_desc);
+        OkHttpUtils
+                .get()
+                .url("http://123.56.102.224:17051/express/remark-list")
+                .addParams("username", "hyman")
+                .addParams("password", "123")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onResponse(String response, int id) {
+                        JSONObject jsonObject = JSON.parseObject(response);
+                        Object data = jsonObject.get("data");
+                        List<Remark> remarks = JSON.parseArray(data.toString(), Remark.class);
+                        List<String> objects = Lists.newArrayList();
+                        for (Remark remark : remarks) {
+                            objects.add(remark.getText());
+                        }
+                        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(ScanActivity.this, android.R.layout.simple_spinner_item, objects);
+                        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Spinner spinner = (Spinner) findViewById(R.id.scan_spinner_remark);
+                        spinner.setAdapter(spinnerAdapter);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                descEditText.setTag(adapterView.getSelectedItem().toString());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Toast.makeText(ScanActivity.this, "异常信息:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
         priceEditText = (EditText) findViewById(R.id.scan_edit_price);
         priceEditText.setFocusable(true);
         priceEditText.setFocusableInTouchMode(true);
@@ -71,7 +115,7 @@ public class ScanActivity extends AppCompatActivity {
                            }
                        },
                 500);//延迟弹出
-        descEditText = (EditText) findViewById(R.id.scan_edit_desc);
+
         findViewById(R.id.scan_button_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
