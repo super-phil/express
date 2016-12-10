@@ -13,11 +13,11 @@ import java.util.List;
  * Created by ZhaoXiuFei on 2016/12/7.
  */
 
-public class HomeListItemAdapter extends BaseAdapter {
+public class HomeListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<Chart> mDatas;
 
-    public HomeListItemAdapter(Context context, List<Chart> datas) {
+    public HomeListAdapter(Context context, List<Chart> datas) {
         mInflater = LayoutInflater.from(context);
         mDatas = datas;
     }
@@ -42,10 +42,10 @@ public class HomeListItemAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
         if (view == null) {
-            view = mInflater.inflate(R.layout.home_list_item, viewGroup, false);//加载布局
+            view = mInflater.inflate(R.layout.home_list, viewGroup, false);//加载布局
             holder = new ViewHolder();
-            holder.type = (TextView) view.findViewById(R.id.home_list_item_type);
-            holder.sum = (TextView) view.findViewById(R.id.home_list_item_sum);
+            holder.type = (TextView) view.findViewById(R.id.home_list_type);
+            holder.sum = (TextView) view.findViewById(R.id.home_list_sum);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();

@@ -34,8 +34,8 @@ public class HomeActivity extends AppCompatActivity {
                         JSONObject jsonObject = JSON.parseObject(response);
                         Object data = jsonObject.get("data");
                         List<Chart> charts = JSON.parseArray(data.toString(), Chart.class);
-                        HomeListItemAdapter adapter = new HomeListItemAdapter(HomeActivity.this, charts);
-                        ListView listView = (ListView) findViewById(R.id.list_view);
+                        HomeListAdapter adapter = new HomeListAdapter(HomeActivity.this, charts);
+                        ListView listView = (ListView) findViewById(R.id.home_list_view);
                         listView.setAdapter(adapter);
                     }
 
@@ -59,6 +59,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, ListActivity.class));
             }
         });
+        //常用语
+        findViewById(R.id.home_button_remark).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, RemarkListActivity.class));
+            }
+        });
+
 
     }
 
