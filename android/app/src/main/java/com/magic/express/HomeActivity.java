@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         OkHttpUtils
                 .get()
-                .url("http://123.56.102.224:17051/express/chart-type")
+                .url(App.DOMAIN + "/express/chart-type")
                 .addParams("username", "hyman")
                 .addParams("password", "123")
                 .build()

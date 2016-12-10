@@ -14,6 +14,9 @@ import okhttp3.OkHttpClient;
  */
 
 public class App extends Application {
+
+    public static final String DOMAIN = "http://123.56.102.224:17051";
+
     @Override
     public void onCreate() {
         super.onCreate();

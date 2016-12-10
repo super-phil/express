@@ -75,10 +75,9 @@ public class RemarkListAdapter extends BaseAdapter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 OkHttpUtils
-                                        .get()
-                                        .url("http://123.56.102.224:17051/express/remark-list")
+                                        .post()
+                                        .url(App.DOMAIN + "/remark/del")
                                         .addParams("id", item.getId() + "")
-                                        .addParams("password", "123")
                                         .build()
                                         .execute(new StringCallback() {
                                             @Override

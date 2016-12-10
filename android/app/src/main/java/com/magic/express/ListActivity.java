@@ -26,7 +26,7 @@ public class ListActivity extends AppCompatActivity {
         });
         WebSettings settings = webView.getSettings();//设置WebView属性,运行执行js脚本
         settings.setJavaScriptEnabled(true);
-        webView.loadUrl("http://123.56.102.224:17051/express/index");          //调用loadView方法为WebView加入链接
+        webView.loadUrl(App.DOMAIN + "/express/index");          //调用loadView方法为WebView加入链接
         setContentView(webView);                           //调用Activity提供的setContentView将webView显示出来
     }
 

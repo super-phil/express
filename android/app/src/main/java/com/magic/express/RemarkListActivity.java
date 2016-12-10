@@ -24,7 +24,7 @@ public class RemarkListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_remark_list);
         OkHttpUtils
                 .get()
-                .url("http://123.56.102.224:17051/express/remark-list")
+                .url(App.DOMAIN + "/remark/list")
                 .addParams("password", "123")
                 .build()
                 .execute(new StringCallback() {

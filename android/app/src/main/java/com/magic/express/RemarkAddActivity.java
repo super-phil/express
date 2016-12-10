@@ -23,8 +23,8 @@ public class RemarkAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 TextView text = (TextView) findViewById(R.id.remark_text);
                 OkHttpUtils
-                        .get()
-                        .url("http://123.56.102.224:17051/express/remark-add")
+                        .post()
+                        .url(App.DOMAIN + "/remark/add")
                         .addParams("text", text.getText().toString())
                         .build()
                         .execute(new StringCallback() {

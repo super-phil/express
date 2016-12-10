@@ -64,8 +64,7 @@ public class ScanActivity extends AppCompatActivity {
         descEditText = (EditText) findViewById(R.id.scan_edit_desc);
         OkHttpUtils
                 .get()
-                .url("http://123.56.102.224:17051/express/remark-list")
-                .addParams("username", "hyman")
+                .url(App.DOMAIN + "/remark/list")
                 .addParams("password", "123")
                 .build()
                 .execute(new StringCallback() {
@@ -75,6 +74,7 @@ public class ScanActivity extends AppCompatActivity {
                         Object data = jsonObject.get("data");
                         List<Remark> remarks = JSON.parseArray(data.toString(), Remark.class);
                         List<String> objects = Lists.newArrayList();
+                        objects.add("默认备注");
                         for (Remark remark : remarks) {
                             objects.add(remark.getText());
                         }
@@ -85,7 +85,7 @@ public class ScanActivity extends AppCompatActivity {
                         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                descEditText.setTag(adapterView.getSelectedItem().toString());
+                                descEditText.setText(adapterView.getSelectedItem().toString());
                             }
 
                             @Override
@@ -101,7 +101,6 @@ public class ScanActivity extends AppCompatActivity {
                     }
 
                 });
-
         priceEditText = (EditText) findViewById(R.id.scan_edit_price);
         priceEditText.setFocusable(true);
         priceEditText.setFocusableInTouchMode(true);
@@ -125,7 +124,7 @@ public class ScanActivity extends AppCompatActivity {
                 String desc = descEditText.getText().toString();
                 OkHttpUtils
                         .post()
-                        .url("http://123.56.102.224:17051/express/save")
+                        .url(App.DOMAIN + "/express/save")
                         .addParams("number", number)
                         .addParams("type", type)
                         .addParams("price", price)
