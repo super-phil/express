@@ -40,11 +40,12 @@ public class ExpressDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement statement=connection.prepareStatement("INSERT INTO express (`number`,`desc`,`type`,`price`) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-                statement.setString(1, express.getNumber());
-                statement.setString(2, express.getDesc());
-                statement.setString(3, express.getType());
-                statement.setInt(4, express.getPrice());
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO express (`id`,`number`,`desc`,`type`,`price`) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                statement.setLong(1, express.getUserId());
+                statement.setString(2, express.getNumber());
+                statement.setString(3, express.getDesc());
+                statement.setString(4, express.getType());
+                statement.setInt(5, express.getPrice());
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
@@ -67,17 +68,17 @@ public class ExpressDao {
             throw new BusinessException(e.getMessage());
         }
     }
-    
+
     /**
      * 根据类型汇总
      *
      * @return
      */
-    public List<Map<String,Object>> chartByType() {
-        String s="SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY TYPE";
-        try{
+    public List<Map<String, Object>> chartByType() {
+        String s = "SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY TYPE";
+        try {
             return jdbcTemplate.queryForList(s);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
     }
@@ -122,24 +123,24 @@ public class ExpressDao {
             throw new BusinessException(e.getMessage());
         }
     }
-    
+
     public void del(String id) throws BusinessException {
-        try{
+        try {
             jdbcTemplate.update("DELETE FROM express WHERE id=?", id);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
     }
-    
+
     /**
      * 变更欠款到现金
      *
      * @param id id
      */
     public void updateTypeToX(String id) {
-        try{
+        try {
             jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", Constant.Type.X.name().toLowerCase(), id);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
     }

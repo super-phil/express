@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("express")
-public class CentralController {
+public class ExpressController {
     @Resource
     private ExpressService expressService;
 

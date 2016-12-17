@@ -15,6 +15,7 @@ import java.util.Date;
 public class Express implements Serializable {
     private static final long serialVersionUID = 8612338914410162714L;
     private long id;
+    private long userId;
     private String number;
     /**
      * <option value="x">现金</option>
