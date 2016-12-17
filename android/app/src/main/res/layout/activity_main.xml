@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.magic.express.activity.MainActivity">
 
     <TextView
-        android:text="Express System"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20sp"
+        android:text="Express System"
         android:textSize="30sp"
-        android:layout_marginTop="61dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textStyle="normal|bold|italic"
         tools:ignore="HardcodedText" />
 
     <EditText
+        android:id="@+id/edit_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30sp"
+
         android:ems="10"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="45dp"
-        android:id="@+id/edit_username"
         android:hint="用户名"
+        android:inputType="textPersonName"
         tools:ignore="HardcodedText" />
 
     <EditText
+        android:id="@+id/edit_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"
+        android:layout_gravity="center_horizontal"
         android:ems="10"
-        android:id="@+id/edit_password"
         android:hint="密码"
-        android:layout_below="@+id/edit_username"
-        android:layout_alignStart="@+id/edit_username"
+        android:inputType="textPassword"
         tools:ignore="HardcodedText" />
 
     <Button
-        android:text="登录"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/button_login"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="登录"
         tools:ignore="HardcodedText" />
-</RelativeLayout>
+
+</LinearLayout>
