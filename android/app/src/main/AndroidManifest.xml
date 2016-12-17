@@ -17,14 +17,16 @@
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.ScanActivity" />
-        <activity android:name=".activity.ListActivity" />
+        <activity android:name=".activity.WebListActivity" />
         <activity android:name=".activity.RemarkListActivity" />
         <activity android:name=".activity.RemarkAddActivity" />
+        <activity android:name=".activity.IncomeListActivity"></activity>
     </application>
 
 </manifest>

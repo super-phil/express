@@ -14,6 +14,7 @@ import com.magic.express.App;
 import com.magic.express.adapter.HomeListAdapter;
 import com.magic.express.R;
 import com.magic.express.model.Chart;
+import com.magic.express.model.Income;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -61,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.home_button_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ListActivity.class));
+                startActivity(new Intent(HomeActivity.this, WebListActivity.class));
             }
         });
         //常用语
@@ -69,6 +70,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, RemarkListActivity.class));
+            }
+        });
+        //收入统计
+        findViewById(R.id.home_button_income).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, IncomeListActivity.class));
             }
         });
 

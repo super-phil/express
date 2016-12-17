@@ -5,57 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.magic.express.activity.HomeActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="com.magic.express.activity.HomeActivity">
 
 
     <ListView
         android:id="@+id/home_list_view"
         android:layout_width="match_parent"
         android:layout_height="200sp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
     <Button
-        android:text="扫码录入"
+        android:id="@+id/home_button_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/home_button_scan"
         android:layout_above="@+id/button_group"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
+        android:text="扫码录入"
         tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:id="@+id/button_group"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
 
         <Button
-            android:text="快递列表"
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_weight="1"
             android:id="@+id/home_button_list"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-        <Button
-            android:text="常用备注"
             android:layout_width="wrap_content"
             android:layout_height="60sp"
             android:layout_weight="1"
+            android:text="快递列表"
+            tools:ignore="ButtonStyle,HardcodedText" />
+
+        <Button
             android:id="@+id/home_button_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_weight="1"
+            android:text="常用备注"
             tools:ignore="ButtonStyle,HardcodedText" />
 
         <Button
-            android:text="待开发中"
+            android:id="@+id/home_button_income"
             android:layout_width="wrap_content"
             android:layout_height="60sp"
-            android:id="@+id/home_button_other"
             android:layout_weight="1"
+            android:text="收入统计"
             tools:ignore="ButtonStyle,HardcodedText" />
     </LinearLayout>
 

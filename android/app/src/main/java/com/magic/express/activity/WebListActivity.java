@@ -10,14 +10,14 @@ import android.webkit.WebViewClient;
 import com.magic.express.App;
 import com.magic.express.R;
 
-public class ListActivity extends AppCompatActivity {
+public class WebListActivity extends AppCompatActivity {
     private WebView webView;
     private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_web_list);
         webView = new WebView(this);
         webView.setWebViewClient(new WebViewClient() {
             //设置在webView点击打开的新网页在当前界面显示,而不跳转到新的浏览器中
@@ -42,7 +42,7 @@ public class ListActivity extends AppCompatActivity {
             webView.goBack();
         } else {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                startActivity(new Intent(ListActivity.this, HomeActivity.class));
+                startActivity(new Intent(WebListActivity.this, HomeActivity.class));
 //                Toast.makeText(getApplicationContext(), "再按一次退出程序",
 //                        Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
