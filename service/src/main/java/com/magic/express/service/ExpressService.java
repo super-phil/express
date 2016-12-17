@@ -4,6 +4,7 @@ import com.magic.express.model.DTRequest;
 import com.magic.express.model.DTResponse;
 import com.magic.express.model.Express;
 import com.magic.express.repository.ExpressDao;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,6 +47,10 @@ public class ExpressService {
     
     public List<Map<String,Object>> chartByType() {
         return expressDao.chartByType();
+    }
+
+    public List<Map<String,Object>> chartByType(DateTime dateTime) {
+        return expressDao.chartByType(dateTime);
     }
     
     public void del(String id) {

@@ -75,7 +75,21 @@ public class ExpressDao {
      * @return
      */
     public List<Map<String, Object>> chartByType() {
-        String s = "SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY TYPE";
+        String s = "SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY type";
+        try {
+            return jdbcTemplate.queryForList(s);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    /**
+     * 根据类型汇总
+     *
+     * @return
+     */
+    public List<Map<String, Object>> chartByType(DateTime dateTime) {
+        String s = "SELECT SUM(price) AS sum, type AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')='" + dateTime.toString("yyyy-MM-dd") + "' GROUP BY type";
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {

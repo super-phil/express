@@ -1,6 +1,5 @@
 package com.magic.express.service;
 
-import com.magic.express.model.User;
 import com.magic.express.repository.LoginDao;
 import org.springframework.stereotype.Service;
 
