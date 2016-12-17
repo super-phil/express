@@ -5,7 +5,7 @@ android {
     defaultConfig {
         multiDexEnabled true//混淆
         applicationId "com.magic.express"
-        minSdkVersion 19
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.6"

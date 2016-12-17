@@ -3,6 +3,7 @@ package com.magic.express.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -86,5 +87,12 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "识别失败,请重试或手动输入", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
     }
 }

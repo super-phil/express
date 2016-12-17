@@ -2,6 +2,7 @@ package com.magic.express.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,10 +31,11 @@ import java.util.TimerTask;
 import okhttp3.Call;
 
 public class ScanActivity extends AppCompatActivity {
-    EditText numberEditText;
-    String result;
-    EditText priceEditText;
-    EditText descEditText;
+    private EditText numberEditText;
+    private String result;
+    private EditText priceEditText;
+    private EditText descEditText;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,7 @@ public class ScanActivity extends AppCompatActivity {
                                inputManager.showSoftInput(priceEditText, 0);
                            }
                        },
-                500);//延迟弹出
+                400);//延迟弹出
 
         findViewById(R.id.scan_button_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +128,8 @@ public class ScanActivity extends AppCompatActivity {
                 String type = Type.getCode(result);
                 String price = priceEditText.getText().toString();
                 String desc = descEditText.getText().toString();
+                preferences = getSharedPreferences("user", MODE_PRIVATE);
+                //取出数据,第一个参数是存取的键，第二个参数-->如果该key不存在，返回默认值，这里返回的默认值是""
                 OkHttpUtils
                         .post()
                         .url(App.DOMAIN + "/express/save")
@@ -133,6 +137,7 @@ public class ScanActivity extends AppCompatActivity {
                         .addParams("type", type)
                         .addParams("price", price)
                         .addParams("desc", desc)
+                        .addParams("userId", preferences.getString("token", ""))
                         .build()
                         .execute(new StringCallback() {
                             @Override
