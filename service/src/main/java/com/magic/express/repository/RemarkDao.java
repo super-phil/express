@@ -30,6 +30,7 @@ public class RemarkDao {
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
         remark.setId(keyHolder.getKey().longValue());
@@ -39,15 +40,17 @@ public class RemarkDao {
         try {
             jdbcTemplate.update("DELETE FROM remark WHERE id=?", id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
 
-    public List<Map<String, Object>> list() {
+    public List<Map<String, Object>> list() throws BusinessException {
         String s = "SELECT * FROM remark";
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }

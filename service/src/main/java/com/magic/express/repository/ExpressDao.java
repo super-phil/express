@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class ExpressDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO express (`id`,`number`,`desc`,`type`,`price`) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO express (`user_id`,`number`,`desc`,`type`,`price`) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
                 statement.setLong(1, express.getUserId());
                 statement.setString(2, express.getNumber());
                 statement.setString(3, express.getDesc());
@@ -49,6 +50,7 @@ public class ExpressDao {
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
         express.setId(keyHolder.getKey().longValue());
@@ -65,6 +67,7 @@ public class ExpressDao {
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
@@ -74,11 +77,12 @@ public class ExpressDao {
      *
      * @return
      */
-    public List<Map<String, Object>> chartByType() {
+    public List<Map<String, Object>> chartByType() throws BusinessException {
         String s = "SELECT SUM(price) AS sum, TYPE AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d') GROUP BY type";
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
@@ -88,11 +92,12 @@ public class ExpressDao {
      *
      * @return
      */
-    public List<Map<String, Object>> chartByType(DateTime dateTime) {
+    public List<Map<String, Object>> chartByType(DateTime dateTime) throws BusinessException {
         String s = "SELECT SUM(price) AS sum, type AS type FROM express WHERE DATE_FORMAT(create_time,'%Y-%m-%d')='" + dateTime.toString("yyyy-MM-dd") + "' GROUP BY type";
         try {
             return jdbcTemplate.queryForList(s);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
@@ -134,6 +139,7 @@ public class ExpressDao {
             response.setDraw(dtRequest.getDraw());
             return response;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
@@ -142,6 +148,7 @@ public class ExpressDao {
         try {
             jdbcTemplate.update("DELETE FROM express WHERE id=?", id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }
@@ -151,10 +158,11 @@ public class ExpressDao {
      *
      * @param id id
      */
-    public void updateTypeToX(String id) {
+    public void updateTypeToX(String id) throws BusinessException {
         try {
-            jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", Constant.Type.X.name().toLowerCase(), id);
+            jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", new Object[]{Constant.Type.X.name().toLowerCase(), id});
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
     }

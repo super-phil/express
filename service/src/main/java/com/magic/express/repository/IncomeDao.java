@@ -22,15 +22,16 @@ public class IncomeDao {
      * <option value="q">欠款</option>
      * <option value="d">代收</option>
      */
-    public void insert(Income income) {
+    public void insert(Income income) throws BusinessException {
         try {
             jdbcTemplate.update("INSERT INTO income (x,y,w,q,d,create_time) VALUES (?,?,?,?,?,?)", new Object[]{income.getX(), income.getY(), income.getW(), income.getQ(), income.getD(), income.getCreateTime()});
         } catch (Exception e) {
             e.printStackTrace();
+            throw new BusinessException(e.getMessage());
         }
     }
 
-    public Object list() {
+    public Object list() throws BusinessException {
         try {
             return jdbcTemplate.queryForList("SELECT * FROM income ORDER BY id DESC ");
         } catch (Exception e) {
