@@ -1,4 +1,4 @@
-package com.magic.express;
+package com.magic.express.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.magic.express.App;
+import com.magic.express.R;
 
 public class ListActivity extends AppCompatActivity {
     private WebView webView;
@@ -48,5 +51,4 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     }
-
 }

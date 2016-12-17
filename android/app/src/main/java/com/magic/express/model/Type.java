@@ -1,4 +1,4 @@
-package com.magic.express;
+package com.magic.express.model;
 
 import com.google.common.collect.Maps;
 

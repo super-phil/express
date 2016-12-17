@@ -14,18 +14,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ScanActivity" />
-        <activity android:name=".ListActivity" />
-        <activity android:name=".RemarkListActivity" />
-        <activity android:name=".RemarkAddActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.ScanActivity" />
+        <activity android:name=".activity.ListActivity" />
+        <activity android:name=".activity.RemarkListActivity" />
+        <activity android:name=".activity.RemarkAddActivity"></activity>
     </application>
 
 </manifest>
