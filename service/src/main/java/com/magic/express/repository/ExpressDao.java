@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -161,6 +160,22 @@ public class ExpressDao {
     public void updateTypeToX(String id) throws BusinessException {
         try {
             jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", new Object[]{Constant.Type.X.name().toLowerCase(), id});
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    /**
+     * 上交现金
+     *
+     * @param id
+     * @return
+     * @throws BusinessException
+     */
+    public Object updateStatus(String id) throws BusinessException {
+        try {
+            return jdbcTemplate.update("UPDATE express SET status=? WHERE id=?", new Object[]{Constant.status, id});
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());

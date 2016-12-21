@@ -1,5 +1,6 @@
 package com.magic.express.service;
 
+import com.magic.express.exception.BusinessException;
 import com.magic.express.model.DTRequest;
 import com.magic.express.model.DTResponse;
 import com.magic.express.model.Express;
@@ -21,11 +22,11 @@ public class ExpressService {
     @Resource
     private ExpressDao expressDao;
 
-    public void save(Express express) {
+    public void save(Express express) throws BusinessException {
         expressDao.save(express);
     }
 
-    public void save(List<Express> express) {
+    public void save(List<Express> express) throws BusinessException {
         expressDao.save(express);
     }
 
@@ -33,36 +34,40 @@ public class ExpressService {
      * 根据快递号分页
      *
      * @param dtRequest 分页参数
-     * @param type 收款类型
+     * @param type      收款类型
      * @return
      */
-    public DTResponse<Map<String, Object>> findByQ(DTRequest dtRequest, String type) {
+    public DTResponse<Map<String, Object>> findByQ(DTRequest dtRequest, String type) throws BusinessException {
         return expressDao.findByQ(dtRequest, type);
     }
 
-    public List<Map<String, Object>> chartsPrice(int days) {
+    public List<Map<String, Object>> chartsPrice(int days) throws BusinessException {
         return expressDao.chartsPrice(days);
     }
-    
-    
-    public List<Map<String,Object>> chartByType() {
+
+
+    public List<Map<String, Object>> chartByType() throws BusinessException {
         return expressDao.chartByType();
     }
 
-    public List<Map<String,Object>> chartByType(DateTime dateTime) {
+    public List<Map<String, Object>> chartByType(DateTime dateTime) throws BusinessException {
         return expressDao.chartByType(dateTime);
     }
-    
-    public void del(String id) {
+
+    public void del(String id) throws BusinessException {
         expressDao.del(id);
     }
-    
+
     /**
      * 变更欠款到现金
      *
      * @param id id
      */
-    public void updateTypeToX(String id) {
+    public void updateTypeToX(String id) throws BusinessException {
         expressDao.updateTypeToX(id);
+    }
+
+    public Object updateStatus(String id) throws BusinessException {
+        return expressDao.updateStatus(id);
     }
 }

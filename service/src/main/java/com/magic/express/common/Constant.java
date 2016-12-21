@@ -9,8 +9,9 @@ import java.util.Map;
  * Created by ZhaoXiuFei on 2016/11/27.
  */
 public class Constant {
+    public static final int status = 1;//已上交款项
 
-   public enum Type {
+    public enum Type {
         X("x", "现金"),
         W("w", "微信"),
         Q("q", "欠款"),

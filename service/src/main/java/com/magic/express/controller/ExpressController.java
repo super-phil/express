@@ -113,6 +113,17 @@ public class ExpressController {
         return getChartByType();
     }
 
+    /**
+     * 上交款项
+     *
+     * @param id id
+     * @return
+     */
+    @RequestMapping(value="up", method=RequestMethod.POST)
+    public Object up(@RequestParam() String id) {
+        return expressService.updateStatus(id);
+    }
+
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public Object save(Express express) {
         expressService.save(express);
@@ -141,6 +152,8 @@ public class ExpressController {
         jo.put("categories", categories);
         return jo;
     }
+
+
 
     public static void main(String[] args) {
         System.out.println(Constant.Type.X.name().toLowerCase());

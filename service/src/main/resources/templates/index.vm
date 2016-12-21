@@ -74,12 +74,13 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap">
+                        <table class="table table-striped table-bordered table-condensed nowrap">
                             <thead>
                             <tr>
                                 <th>单号</th>
                                 <th>类型</th>
                                 <th>金额</th>
+                                <th>状态</th>
                                 <th>日期</th>
                                 <th>备注</th>
                                 <th>操作</th>
@@ -171,21 +172,31 @@
                 success: function (result) {
                     var trs = '';
                     $.each(result.data, function (i, v) {
-                        trs += '<tr>';
-//                    trs+='<td>'+v.id+'</td>';
+                        if (i % 2 == 0) {
+                            trs += '<tr style="background-color:#bce8f1">';
+                        } else {
+                            trs += '<tr>';
+                        }
                         trs += '<td>' + v.number + '</td>';
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
-                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
-                        trs += '<td>' + v.desc+ '</td>';
-                        if (v.type == '欠款') {
-                            trs += '<td><button type="button" class="btn-yes btn btn-xs btn-success" data-id="' + v.id + '">已还</button></td>';
-                            trs += '<td><button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button></td>';
+                        if (v.status == 1) {
+                            trs += '<td>已上交</td>';
                         } else {
-                            trs += '<td><button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button></td>';
+                            trs += '<td>未上交</td>';
                         }
+                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
+                        trs += '<td>' + v.desc + '</td>';
+                        trs += "<td style='text-align: center'>";
+                        if (v.status == 0 && v.type != '欠款') {
+                            trs += ' <button type="button" class="btn-up btn btn-xs btn-success" data-id="' + v.id + '">上交</button> &nbsp;&nbsp;';
+                        }
+                        if (v.type == '欠款') {
+                            trs += ' <button type="button" class="btn-yes btn btn-xs btn-info" data-id="' + v.id + '">已还</button> &nbsp;&nbsp;';
+                        }
+                        trs += ' <button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button> &nbsp;&nbsp;';
 
-                        trs += '</tr>';
+                        trs += '</td></tr>';
                     });
                     var pager = '';
                     var ext = result.ext;
@@ -260,6 +271,21 @@
                 type: 'POST',
                 data: {'id': $(this).data('id')},
                 url: "/express/yes",
+                dataType: 'json',
+                success: function (result) {
+                    refresh();
+                    setChart(result);
+                }
+            });
+        });
+        /***
+         * 已上交
+         */
+        $(document).on('click', ".btn-up", function (e) {
+            $.ajax({
+                type: 'POST',
+                data: {'id': $(this).data('id')},
+                url: "/express/up",
                 dataType: 'json',
                 success: function (result) {
                     refresh();
