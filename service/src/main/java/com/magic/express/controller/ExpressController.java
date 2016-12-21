@@ -33,81 +33,81 @@ public class ExpressController {
     public ModelAndView index() {
         return new ModelAndView("index");
     }
-    
-    @RequestMapping(value="list", method=RequestMethod.GET)
-    public DTResponse list(DTRequest dtRequest, @RequestParam(required=false) String type) {
-        if(StringUtils.isEmpty(type)){
-            type=Constant.Type.X.name().toLowerCase();
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public DTResponse list(DTRequest dtRequest, @RequestParam(required = false) String type) {
+        if (StringUtils.isEmpty(type)) {
+            type = Constant.Type.X.name().toLowerCase();
         }
-        DTResponse<Map<String,Object>> response=expressService.findByQ(dtRequest, type);
-        for(Map<String,Object> map : response.getData()){
+        DTResponse<Map<String, Object>> response = expressService.findByQ(dtRequest, type);
+        for (Map<String, Object> map : response.getData()) {
             map.put("type", Constant.Type.getDesc((String) map.get("type")));
         }
-        JSONObject jo=new JSONObject();
-        if(!StringUtils.isEmpty(dtRequest.getQ())){
+        JSONObject jo = new JSONObject();
+        if (!StringUtils.isEmpty(dtRequest.getQ())) {
             jo.put("q", dtRequest.getQ());
         }
-        if(!StringUtils.isEmpty(type)){
+        if (!StringUtils.isEmpty(type)) {
             jo.put("type", type);
         }
-        int start=dtRequest.getStart();
-        int offset=dtRequest.getLength();
-        if(start != 0){
-            int begin=start;
-            begin=begin-offset;
-            jo.put("previous_f", begin<0 ? 0 : begin);
+        int start = dtRequest.getStart();
+        int offset = dtRequest.getLength();
+        if (start != 0) {
+            int begin = start;
+            begin = begin - offset;
+            jo.put("previous_f", begin < 0 ? 0 : begin);
         }
-        if(response.getData().size()>=offset){
-            jo.put("next_f", start+offset);
+        if (response.getData().size() >= offset) {
+            jo.put("next_f", start + offset);
         }
         response.setExt(jo);
         return response;
     }
-    
+
     /**
      * 订单按类型价格统计
      *
      * @return
      */
-    @RequestMapping(value="chart-type", method=RequestMethod.GET)
+    @RequestMapping(value = "chart-type", method = RequestMethod.GET)
     public Object chartsType() {
         return getChartByType();
     }
-    
+
     private JSONObject getChartByType() {
-        List<Map<String,Object>> mapList=expressService.chartByType();
-        for(Map<String,Object> map : mapList){
+        List<Map<String, Object>> mapList = expressService.chartByType();
+        for (Map<String, Object> map : mapList) {
             map.put("type", Constant.Type.getDesc((String) map.get("type")));
         }
-        JSONObject jo=new JSONObject();
+        JSONObject jo = new JSONObject();
         jo.put("data", mapList);
         return jo;
     }
-    
+
     @RequestMapping("/chart")
     public ModelAndView chart() {
         return new ModelAndView("charts");
     }
-    
+
     /**
      * 删除
      *
      * @param id id
      * @return
      */
-    @RequestMapping(value="del", method=RequestMethod.POST)
+    @RequestMapping(value = "del", method = RequestMethod.POST)
     public Object del(@RequestParam() String id) {
         expressService.del(id);
         return getChartByType();
     }
-    
+
     /**
      * 变更欠款到现金
      *
      * @param id id
      * @return
      */
-    @RequestMapping(value="yes", method=RequestMethod.POST)
+    @RequestMapping(value = "yes", method = RequestMethod.POST)
     public Object yes(@RequestParam() String id) {
         expressService.updateTypeToX(id);
         return getChartByType();
@@ -119,7 +119,7 @@ public class ExpressController {
      * @param id id
      * @return
      */
-    @RequestMapping(value="up", method=RequestMethod.POST)
+    @RequestMapping(value = "up", method = RequestMethod.POST)
     public Object up(@RequestParam() String id) {
         return expressService.updateStatus(id);
     }
@@ -152,7 +152,6 @@ public class ExpressController {
         jo.put("categories", categories);
         return jo;
     }
-
 
 
     public static void main(String[] args) {
