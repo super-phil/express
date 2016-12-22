@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -40,12 +41,14 @@ public class ExpressDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO express (`user_id`,`number`,`desc`,`type`,`price`) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO express (`user_id`,`number`,`desc`,`type`,`price`,`create_time`,`update_time`) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
                 statement.setLong(1, express.getUserId());
                 statement.setString(2, express.getNumber());
                 statement.setString(3, express.getDesc());
                 statement.setString(4, express.getType());
                 statement.setInt(5, express.getPrice());
+                statement.setDate(6, new Date(express.getCreateTime().getTime()));
+                statement.setDate(7, new Date(express.getUpdateTime().getTime()));
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
@@ -159,7 +162,7 @@ public class ExpressDao {
      */
     public void updateTypeToX(String id) throws BusinessException {
         try {
-            jdbcTemplate.update("UPDATE express SET type=? WHERE id=?", new Object[]{Constant.Type.X.name().toLowerCase(), id});
+            jdbcTemplate.update("UPDATE express SET type=? ,update_time=now() WHERE id=?", new Object[]{Constant.Type.X.name().toLowerCase(), id});
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());
@@ -175,7 +178,7 @@ public class ExpressDao {
      */
     public Object updateStatus(String id) throws BusinessException {
         try {
-            return jdbcTemplate.update("UPDATE express SET status=? WHERE id=?", new Object[]{Constant.status, id});
+            return jdbcTemplate.update("UPDATE express SET status=?,update_time=NOW() WHERE id=?", new Object[]{Constant.status, id});
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());

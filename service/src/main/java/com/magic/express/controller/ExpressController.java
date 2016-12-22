@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -126,6 +127,9 @@ public class ExpressController {
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public Object save(Express express) {
+        Date date = new Date();
+        express.setCreateTime(date);
+        express.setUpdateTime(date);
         expressService.save(express);
         return getChartByType();
     }
