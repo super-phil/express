@@ -24,7 +24,7 @@
 </head>
 <body style="min-width: 230px">
 
-<div class="container">
+<div class="container-full">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 ">
             <div class="panel panel-info">
@@ -252,46 +252,88 @@
          * 删除
          */
         $(document).on('click', ".btn-del", function (e) {
-            $.ajax({
-                type: 'POST',
-                data: {'id': $(this).data('id')},
-                url: "/express/del",
-                dataType: 'json',
-                success: function (result) {
-                    refresh();
-                    setChart(result);
-                }
-            });
+            var oThis = $(this);
+            swal({
+                        title: "确认删除?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'POST',
+                            data: {'id': oThis.data('id')},
+                            url: "/express/del",
+                            dataType: 'json',
+                            success: function (result) {
+                                refresh();
+                                setChart(result);
+                                swal.close();
+                            }
+                        });
+                    });
         });
         /***
          * 已还
          */
         $(document).on('click', ".btn-yes", function (e) {
-            $.ajax({
-                type: 'POST',
-                data: {'id': $(this).data('id')},
-                url: "/express/yes",
-                dataType: 'json',
-                success: function (result) {
-                    refresh();
-                    setChart(result);
-                }
-            });
+            var oThis = $(this);
+            swal({
+                        title: "确认还款?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'POST',
+                            data: {'id': oThis.data('id')},
+                            url: "/express/yes",
+                            dataType: 'json',
+                            success: function (result) {
+                                refresh();
+                                setChart(result);
+                                swal.close();
+                            }
+                        });
+                    });
+
         });
         /***
          * 已上交
          */
         $(document).on('click', ".btn-up", function (e) {
-            $.ajax({
-                type: 'POST',
-                data: {'id': $(this).data('id')},
-                url: "/express/up",
-                dataType: 'json',
-                success: function (result) {
-                    refresh();
-                    setChart(result);
-                }
-            });
+            var oThis = $(this);
+
+            swal({
+                        title: "确认上交?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'POST',
+                            data: {'id': oThis.data('id')},
+                            url: "/express/up",
+                            dataType: 'json',
+                            success: function (result) {
+                                refresh();
+                                setChart(result);
+                                swal.close();
+                            }
+                        });
+                    });
+
         });
         function refresh() {
             var data = {};
