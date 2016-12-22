@@ -70,4 +70,8 @@ public class ExpressService {
     public Object updateStatus(String id) throws BusinessException {
         return expressDao.updateStatus(id);
     }
+
+    public Object updateInfo(String id, int price, String type, String desc) throws BusinessException {
+        return expressDao.updateInfo(id, price, type, desc);
+    }
 }

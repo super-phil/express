@@ -1,5 +1,6 @@
 package com.magic.express.service;
 
+import com.magic.express.exception.BusinessException;
 import com.magic.express.model.Income;
 import com.magic.express.repository.IncomeDao;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,11 @@ public class IncomeService {
     @Resource
     private IncomeDao incomeDao;
 
-    public void save(Income income){
+    public void save(Income income) throws BusinessException {
         incomeDao.insert(income);
     }
 
-    public Object list() {
+    public Object list() throws BusinessException {
         return incomeDao.list();
     }
 }

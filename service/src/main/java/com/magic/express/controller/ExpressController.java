@@ -157,6 +157,16 @@ public class ExpressController {
         return jo;
     }
 
+    /**
+     * 上交款项
+     *
+     * @param id id
+     * @return
+     */
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public Object edit(@RequestParam String id, @RequestParam int price, @RequestParam String type, @RequestParam String desc) {
+        return expressService.updateInfo(id, price, type, desc);
+    }
 
     public static void main(String[] args) {
         System.out.println(Constant.Type.X.name().toLowerCase());

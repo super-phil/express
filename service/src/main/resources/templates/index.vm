@@ -25,7 +25,7 @@
 <body style="min-width: 230px">
 
 <div class="container-full">
-    <div class="row">
+    <div class="row row-table">
         <div class="col-xs-12 col-sm-12 col-md-12 ">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -95,6 +95,40 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row row-form" style="display: none;">
+        <div class="col-xs-1 col-sm-1 col-md-1 "></div>
+        <div class="col-xs-10 col-sm-10 col-md-10" style="text-align: center">
+            <h3>更新快递信息</h3>
+            <form role="form" style="text-align: left">
+                <input type="hidden" id="form-id" name="id">
+                <div class="form-group">
+                    <label>单号</label>
+                    <input type="text" id="form-number" name="number" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>价格</label>
+                    <input type="number" id="form-price" name="price" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>类型</label>
+                    <select class="form-control" id="form-type" name="type">
+                        <option value="x">现金</option>
+                        <option value="y">月结</option>
+                        <option value="w">微信</option>
+                        <option value="q">欠款</option>
+                        <option value="d">代收</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>备注</label>
+                    <input type="text" id="form-desc" name="desc" class="form-control">
+                </div>
+            </form>
+            <button id="form-btn-cancel" class="btn btn-default">取消</button>
+            <button id="form-btn-ok" class="btn btn-success">确定</button>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 "></div>
     </div>
 </div>
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
@@ -188,6 +222,7 @@
                         trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
                         trs += '<td>' + v.desc + '</td>';
                         trs += "<td style='text-align: center'>";
+                        trs += ' <button type="button" class="btn-edit btn btn-xs btn-primary" data-id="' + v.id + '" data-number="' + v.number + '" data-type="' + v.type + '" data-price="' + v.price + '" data-desc="' + v.desc + '">编辑</button> &nbsp;&nbsp;';
                         if (v.status == 0 && v.type != '欠款') {
                             trs += ' <button type="button" class="btn-up btn btn-xs btn-success" data-id="' + v.id + '" data-number="' + v.number + '">上交</button> &nbsp;&nbsp;';
                         }
@@ -307,6 +342,47 @@
                     });
 
         });
+        /***
+         * 编辑
+         */
+        $(document).on('click', ".btn-edit", function (e) {
+            $(".row-table").hide();
+            var oThis = $(this);
+            $('#form-id').val(oThis.data('id'));
+            $('#form-number').val(oThis.data('number'));
+            $('#form-price').val(oThis.data('price'));
+            $('#form-desc').val(oThis.data('desc'));
+            $("#form-type").find("option:contains('" + oThis.data('type') + "')").attr("selected", true);
+            $(".row-form").show();
+        })
+        /**取消编辑
+         * **/
+        $('#form-btn-cancel').click(function (e) {
+
+            $(".row-form").hide();
+            $(".row-table").show();
+        })
+        /**确定编辑
+         * **/
+        $('#form-btn-ok').click(function (e) {
+            var obj = {};
+            obj.id = $('#form-id').val();
+            obj.price = $('#form-price').val();
+            obj.desc = $('#form-desc').val();
+            obj.type = $('#form-type').val();
+            $.ajax({
+                type: 'POST',
+                url: "/express/edit",
+                data: obj,
+                dataType: 'json',
+                success: function (result) {
+                    refresh();
+                    chartType();
+                    $(".row-form").hide();
+                    $(".row-table").show();
+                }
+            });
+        })
         /***
          * 已上交
          */

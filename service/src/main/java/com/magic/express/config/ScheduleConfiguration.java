@@ -6,7 +6,6 @@ import com.magic.express.service.ExpressService;
 import com.magic.express.service.IncomeService;
 import com.magic.utils.database.DBUtils;
 import com.magic.utils.qiniu.QiNiuUtils;
-import com.magic.utils.zip.ZipUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -36,9 +35,9 @@ public class ScheduleConfiguration {
     private IncomeService incomeService;
 
     /**
-     * 每天8点备份数据库并发送邮件
+     * 每天23:59:55备份数据库并上传到七牛
      */
-    @Scheduled(cron = "0 0 20 * * ?")
+    @Scheduled(cron = "55 59 23 * * ?")
     public void backupAndSendEmail() {
         String backupPath = "/root/phil/";
         File file = new File(backupPath + "backup-" + LocalDate.now().toString("yyyy-MM-dd") + ".sql");
@@ -47,8 +46,8 @@ public class ScheduleConfiguration {
             String dbUser = "root";
             String dbPwd = "200810";
             DBUtils.backup(file.getPath(), dbName, dbUser, dbPwd);
-           //上传到七牛云上
-            QiNiuUtils.upload(file);
+            //上传到七牛云上 并发送邮件
+            emailService.sendSimple("717815@163.com", "717815@163.com", file.getName(), QiNiuUtils.upload(file));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +56,7 @@ public class ScheduleConfiguration {
     /**
      * 统计收入
      */
-    @Scheduled(cron = "58 59 23 * * ?")
+    @Scheduled(cron = "55 59 23 * * ?")
     public void insertIncome() {
         Income income = new Income();
         DateTime now = DateTime.now();
