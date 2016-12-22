@@ -5,6 +5,7 @@ import com.magic.express.service.EmailService;
 import com.magic.express.service.ExpressService;
 import com.magic.express.service.IncomeService;
 import com.magic.utils.database.DBUtils;
+import com.magic.utils.qiniu.QiNiuUtils;
 import com.magic.utils.zip.ZipUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -40,16 +41,14 @@ public class ScheduleConfiguration {
     @Scheduled(cron = "0 0 20 * * ?")
     public void backupAndSendEmail() {
         String backupPath = "/root/phil/";
-        File file = new File(backupPath + "backup-" + LocalDate.now().toString("yyyy-MM-dd") + ".jpg");
+        File file = new File(backupPath + "backup-" + LocalDate.now().toString("yyyy-MM-dd") + ".sql");
         try {
             String dbName = "express";
             String dbUser = "root";
-            String dbPwd = "1Q2w3e4r";
+            String dbPwd = "200810";
             DBUtils.backup(file.getPath(), dbName, dbUser, dbPwd);
-            String zip = backupPath + "backup-" + LocalDate.now().toString("yyyy-MM-dd") + ".zip";
-            ZipUtils.zip(zip, file);
-            String email = "717815@163.com";
-            emailService.sendAttachments(email, email, "express数据库备份", "数据库备份请查看附件!", new File(zip));
+           //上传到七牛云上
+            QiNiuUtils.upload(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
