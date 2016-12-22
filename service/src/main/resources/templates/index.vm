@@ -189,12 +189,12 @@
                         trs += '<td>' + v.desc + '</td>';
                         trs += "<td style='text-align: center'>";
                         if (v.status == 0 && v.type != '欠款') {
-                            trs += ' <button type="button" class="btn-up btn btn-xs btn-success" data-id="' + v.id + '">上交</button> &nbsp;&nbsp;';
+                            trs += ' <button type="button" class="btn-up btn btn-xs btn-success" data-id="' + v.id + '" data-number="' + v.number + '">上交</button> &nbsp;&nbsp;';
                         }
                         if (v.type == '欠款') {
-                            trs += ' <button type="button" class="btn-yes btn btn-xs btn-info" data-id="' + v.id + '">已还</button> &nbsp;&nbsp;';
+                            trs += ' <button type="button" class="btn-yes btn btn-xs btn-info" data-id="' + v.id + '" data-number="' + v.number + '">已还</button> &nbsp;&nbsp;';
                         }
-                        trs += ' <button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '">删除</button> &nbsp;&nbsp;';
+                        trs += ' <button type="button" class="btn-del btn btn-xs btn-danger" data-id="' + v.id + '" data-number="' + v.number + '">删除</button> &nbsp;&nbsp;';
 
                         trs += '</td></tr>';
                     });
@@ -255,6 +255,7 @@
             var oThis = $(this);
             swal({
                         title: "确认删除?",
+                        text: "单号:" + oThis.data("number"),
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
@@ -283,6 +284,7 @@
             var oThis = $(this);
             swal({
                         title: "确认还款?",
+                        text: "单号:" + oThis.data("number"),
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
@@ -314,6 +316,7 @@
             swal({
                         title: "确认上交?",
                         type: "warning",
+                        text: "单号:" + oThis.data("number"),
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "确定",
