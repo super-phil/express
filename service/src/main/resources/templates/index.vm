@@ -222,7 +222,7 @@
                         trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
                         trs += '<td>' + v.desc + '</td>';
                         trs += "<td style='text-align: center'>";
-                        if (v.status == 0) {|
+                        if (v.status == 0) {
                             trs += ' <button type="button" class="btn-edit btn btn-xs btn-primary" data-id="' + v.id + '" data-number="' + v.number + '" data-type="' + v.type + '" data-price="' + v.price + '" data-desc="' + v.desc + '">编辑</button> &nbsp;&nbsp;';
                         }
                         if (v.status == 0 && v.type != '欠款') {
