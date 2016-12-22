@@ -219,7 +219,7 @@
                         } else {
                             trs += '<td>未上交</td>';
                         }
-                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
+                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd") + '</td>';
                         trs += '<td>' + v.desc + '</td>';
                         trs += "<td style='text-align: center'>";
                         if (v.status == 0) {
