@@ -24,7 +24,7 @@ public class IncomeDao {
      */
     public void insert(Income income) throws BusinessException {
         try {
-            jdbcTemplate.update("INSERT INTO income (x,y,w,q,d,create_time) VALUES (?,?,?,?,?,?)", new Object[]{income.getX(), income.getY(), income.getW(), income.getQ(), income.getD(), income.getCreateTime()});
+            jdbcTemplate.update("INSERT INTO income (x,y,w,q,d,create_time,update_time) VALUES (?,?,?,?,?,?,?)", new Object[]{income.getX(), income.getY(), income.getW(), income.getQ(), income.getD(), income.getCreateTime(),income.getUpdateTime()});
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());

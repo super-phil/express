@@ -64,6 +64,7 @@ public class ScheduleConfiguration {
         DateTime now = DateTime.now();
         List<Map<String, Object>> maps = expressService.chartByType(now);
         income.setCreateTime(now.toDate());
+        income.setUpdateTime(now.toDate());
         if (!maps.isEmpty()) {
             for (Map<String, Object> map : maps) {
                 if (!map.isEmpty()) {
