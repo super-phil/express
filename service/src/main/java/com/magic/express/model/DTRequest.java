@@ -14,7 +14,7 @@ public class DTRequest implements Serializable {
     private static final long serialVersionUID = 7952081428830565475L;
     private int draw;
     private int start;//开始
-    private int length = 50;//默认长度
+    private int length = 20;//默认长度
     private String q;//查询参数
 
     public String getQ() {
