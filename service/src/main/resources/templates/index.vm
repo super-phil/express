@@ -211,7 +211,7 @@
                         } else {
                             trs += '<tr>';
                         }
-                        trs += '<td><a id="image-href" href="javascript:void(0)" data-href="'+v.url+'">' + v.number + '</a></td>';
+                        trs += '<td><a  href="'+v.url+'">' + v.number + '</a></td>';
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
                         if (v.status == 1) {
@@ -416,10 +416,6 @@
                     });
 
         });
-        $(document).on('click', "#image-href", function (e) {
-            var oThis = $(this);
-            window.showModalDialog(oThis.data('href'), null, "dialogHeight:640px; dialogWidth:360px; resizable:yes");
-        })
         function refresh() {
             var data = {};
             if (previous_f != undefined) {
