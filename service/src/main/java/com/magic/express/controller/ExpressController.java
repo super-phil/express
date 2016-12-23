@@ -187,8 +187,8 @@ public class ExpressController {
      * @param url    url
      * @return
      */
-    @RequestMapping(value = "update/url", method = RequestMethod.POST)
-    public Object updateUrl(@RequestParam String number, @RequestParam String url) {
+    @RequestMapping(value = "upload/url", method = RequestMethod.POST)
+    public Object uploadUrl(@RequestParam String number, @RequestParam String url) {
         return expressService.updateUrl(number,url);
     }
 
