@@ -39,45 +39,50 @@ public class UploadActivity extends AppCompatActivity {
         findViewById(R.id.upload_button_upload).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(UploadActivity.this, "开始上传啦,去喝杯水吧!", Toast.LENGTH_LONG).show();
-                for (final Map.Entry<String, String> entry : all.entrySet()) {
-                    String key = entry.getKey() + ".jpg";
-                    Utils.uploadManager.put(entry.getValue(), key, Utils.getToken(), new UpCompletionHandler() {
-                        @Override
-                        public void complete(final String key, ResponseInfo info, JSONObject res) {
-                            //res包含hash、key等信息，具体字段取决于上传策略的设置
-                            Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + res);
-                            if (info.isOK()) {
-                                Log.i("qiniu", "Upload Success");
-                                OkHttpUtils
-                                        .post()
-                                        .url(App.DOMAIN + "/express/upload/url")
-                                        .addParams("number", entry.getKey())
-                                        .addParams("url", Utils.QINIU_DOMAIN + key)
-                                        .build()
-                                        .execute(new StringCallback() {
-                                            @Override
-                                            public void onResponse(String response, int id) {
-                                                Toast.makeText(UploadActivity.this, key + "上传成功!", Toast.LENGTH_SHORT).show();
-                                                preferences.edit().remove(entry.getKey()).apply();
-                                                //刷新listview
-                                                adapter.remove(entry.getValue());
-                                                adapter.notifyDataSetChanged();
-                                            }
-                                            @Override
-                                            public void onError(Call call, Exception e, int id) {
-                                                Toast.makeText(UploadActivity.this, "上传失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            } else {
-                                Log.i("qiniu", "Upload Fail");
-                                //如果失败，这里可以把info信息上报自己的服务器，便于后面分析上传错误原因
-                            }
-                        }
-                    }, null);
+                if (!Utils.isWifi(UploadActivity.this)) {
+                    Toast.makeText(UploadActivity.this, "当前不是WIFI网络!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(UploadActivity.this, "开始上传啦,去喝杯水吧!", Toast.LENGTH_LONG).show();
+                    for (final Map.Entry<String, String> entry : all.entrySet()) {
+                        String key = entry.getKey() + ".jpg";
+                        Utils.uploadManager.put(entry.getValue(), key, Utils.getToken(), new UpCompletionHandler() {
+                            @Override
+                            public void complete(final String key, ResponseInfo info, JSONObject res) {
+                                //res包含hash、key等信息，具体字段取决于上传策略的设置
+                                Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + res);
+                                if (info.isOK()) {
+                                    Log.i("qiniu", "Upload Success");
+                                    OkHttpUtils
+                                            .post()
+                                            .url(App.DOMAIN + "/express/upload/url")
+                                            .addParams("number", entry.getKey())
+                                            .addParams("url", Utils.QINIU_DOMAIN + key)
+                                            .build()
+                                            .execute(new StringCallback() {
+                                                @Override
+                                                public void onResponse(String response, int id) {
+                                                    Toast.makeText(UploadActivity.this, key + "上传成功!", Toast.LENGTH_SHORT).show();
+                                                    preferences.edit().remove(entry.getKey()).apply();
+                                                    //刷新listview
+                                                    adapter.remove(entry.getValue());
+                                                    adapter.notifyDataSetChanged();
+                                                }
 
+                                                @Override
+                                                public void onError(Call call, Exception e, int id) {
+                                                    Toast.makeText(UploadActivity.this, "上传失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(UploadActivity.this, "上传失败:" + res, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }, null);
+
+                    }
                 }
             }
         });
+
     }
 }

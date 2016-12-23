@@ -1,7 +1,10 @@
 package com.magic.express;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qiniu.android.common.Zone;
@@ -95,6 +98,21 @@ public class Utils {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(time));
     }
 
+    /**
+     * 是否wifi环境
+     * @param mContext
+     * @return
+     */
+    public static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
     /**
      * 计算图片的缩放值
      *
