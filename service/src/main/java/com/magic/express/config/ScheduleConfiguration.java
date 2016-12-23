@@ -47,7 +47,7 @@ public class ScheduleConfiguration {
             String dbPwd = "200810";
             DBUtils.backup(file.getPath(), dbName, dbUser, dbPwd);
             //上传到七牛云上 并发送邮件
-            emailService.sendSimple("717815@163.com", "717815@163.com", file.getName(), QiNiuUtils.upload(file));
+            emailService.sendSimple("717815@163.com", "185509965@qq.com", file.getName(), QiNiuUtils.upload(file));
         } catch (Exception e) {
             e.printStackTrace();
         }
