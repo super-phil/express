@@ -74,4 +74,8 @@ public class ExpressService {
     public Object updateInfo(String id, int price, String type, String desc) throws BusinessException {
         return expressDao.updateInfo(id, price, type, desc);
     }
+
+    public Object updateUrl(String number, String url) throws BusinessException {
+        return expressDao.updateUrl(number,url);
+    }
 }

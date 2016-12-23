@@ -7,6 +7,7 @@ import com.magic.express.model.DTRequest;
 import com.magic.express.model.DTResponse;
 import com.magic.express.model.Express;
 import com.magic.express.service.ExpressService;
+import com.magic.utils.qiniu.QiNiuUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -166,6 +167,29 @@ public class ExpressController {
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public Object edit(@RequestParam String id, @RequestParam int price, @RequestParam String type, @RequestParam String desc) {
         return expressService.updateInfo(id, price, type, desc);
+    }
+
+    /**
+     * 获取token
+     *
+     * @param id id
+     * @return
+     */
+    @RequestMapping(value = "token", method = RequestMethod.POST)
+    public Object token(@RequestParam String key) {
+        return QiNiuUtils.getUpToken(key);
+    }
+
+    /**
+     * 更新url
+     *
+     * @param number number
+     * @param url    url
+     * @return
+     */
+    @RequestMapping(value = "update/url", method = RequestMethod.POST)
+    public Object updateUrl(@RequestParam String number, @RequestParam String url) {
+        return expressService.updateUrl(number,url);
     }
 
     public static void main(String[] args) {

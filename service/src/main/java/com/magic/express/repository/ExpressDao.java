@@ -187,6 +187,7 @@ public class ExpressDao {
 
     /**
      * 更新信息
+     *
      * @param id
      * @param price
      * @param type
@@ -197,6 +198,23 @@ public class ExpressDao {
     public Object updateInfo(String id, int price, String type, String desc) throws BusinessException {
         try {
             return jdbcTemplate.update("UPDATE express SET price=?,`type`=?,`desc`=?,update_time=NOW() WHERE id=?", new Object[]{price, type, desc, id});
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    /**
+     * 更新URL
+     *
+     * @param number 单号
+     * @param url    url
+     * @return
+     * @throws BusinessException
+     */
+    public Object updateUrl(String number, String url) throws BusinessException {
+        try {
+            return jdbcTemplate.update("UPDATE express SET url=? WHERE number=?", new Object[]{url, number});
         } catch (BusinessException e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());
