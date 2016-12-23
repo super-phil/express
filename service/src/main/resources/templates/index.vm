@@ -211,7 +211,7 @@
                         } else {
                             trs += '<tr>';
                         }
-                        trs += '<td>' + v.number + '</td>';
+                        trs += '<td><a href="'+v.url+'">' + v.number + '</a></td>';
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
                         if (v.status == 1) {
