@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class ExpressDao {
                 statement.setString(3, express.getDesc());
                 statement.setString(4, express.getType());
                 statement.setInt(5, express.getPrice());
-                statement.setDate(6, new Date(express.getCreateTime().getTime()));
-                statement.setDate(7, new Date(express.getUpdateTime().getTime()));
+                statement.setTimestamp(6, new Timestamp(express.getCreateTime().getTime()));
+                statement.setTimestamp(7, new Timestamp(express.getUpdateTime().getTime()));
                 return statement;
             }, keyHolder);
         } catch (Exception e) {
