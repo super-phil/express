@@ -19,22 +19,23 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="25sp"
-            android:text="快递信息"
             android:gravity="center"
-            android:textSize="25sp"
+            android:paddingTop="20sp"
+            android:text="快递信息"
+            android:textSize="20sp"
             tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/scan_edit_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:ems="10"
             android:hint="条码"
             android:inputType="numberSigned"
             tools:ignore="HardcodedText" />
+
         <EditText
             android:id="@+id/scan_edit_price"
             android:layout_width="match_parent"
@@ -47,30 +48,43 @@
         <Spinner
             android:id="@+id/scan_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15sp"
+            android:layout_height="40sp"
+            android:padding="5sp"
             tools:ignore="InefficientWeight" />
 
         <Spinner
             android:id="@+id/scan_spinner_remark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15sp"
+            android:layout_height="40sp"
+            android:padding="5sp"
             tools:ignore="InefficientWeight" />
 
         <EditText
+            android:id="@+id/scan_edit_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/scan_edit_desc"
             android:hint="备注"
+            android:inputType="text"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/scan_scan_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="拍照"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/scan_iv"
+            android:layout_width="match_parent"
+            android:layout_height="150sp"
+            android:contentDescription="图片"
             tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/scan_button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30sp"
             android:text="保存"
             tools:ignore="HardcodedText" />
     </LinearLayout>

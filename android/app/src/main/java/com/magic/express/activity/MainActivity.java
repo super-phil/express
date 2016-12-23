@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        preferences = getSharedPreferences("user", MODE_PRIVATE);
+        preferences = getSharedPreferences(App.USER, MODE_PRIVATE);
         //取出数据,第一个参数是存取的键，第二个参数-->如果该key不存在，返回默认值，这里返回的默认值是""
         String username = preferences.getString("username", "");
         String password = preferences.getString("password", "");

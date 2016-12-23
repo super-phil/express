@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +28,8 @@
         <activity android:name=".activity.WebListActivity" />
         <activity android:name=".activity.RemarkListActivity" />
         <activity android:name=".activity.RemarkAddActivity" />
-        <activity android:name=".activity.IncomeListActivity"></activity>
+        <activity android:name=".activity.IncomeListActivity" />
+        <activity android:name=".activity.UploadActivity" />
     </application>
 
 </manifest>

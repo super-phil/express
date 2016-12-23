@@ -11,10 +11,9 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.express.App;
-import com.magic.express.adapter.HomeListAdapter;
 import com.magic.express.R;
+import com.magic.express.adapter.HomeListAdapter;
 import com.magic.express.model.Chart;
-import com.magic.express.model.Income;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -79,8 +78,13 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, IncomeListActivity.class));
             }
         });
-
-
+        //图片上传
+        findViewById(R.id.home_button_upload).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, UploadActivity.class));
+            }
+        });
     }
 
     @Override

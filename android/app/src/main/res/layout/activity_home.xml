@@ -59,6 +59,14 @@
             android:layout_weight="1"
             android:text="收入统计"
             tools:ignore="ButtonStyle,HardcodedText" />
+
+        <Button
+            android:id="@+id/home_button_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_weight="1"
+            android:text="图片上传"
+            tools:ignore="ButtonStyle,HardcodedText" />
     </LinearLayout>
 
 </RelativeLayout>

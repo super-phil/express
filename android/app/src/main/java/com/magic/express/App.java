@@ -2,6 +2,8 @@ package com.magic.express;
 
 import android.app.Application;
 
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UploadManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,8 @@ import okhttp3.OkHttpClient;
 public class App extends Application {
 
     public static final String DOMAIN = "http://123.56.102.224:17051";
+    public static final String EXPRESS_IMAGE = "express_image";
+    public static final String USER = "user";
 
     @Override
     public void onCreate() {
