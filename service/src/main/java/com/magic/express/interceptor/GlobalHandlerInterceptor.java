@@ -24,21 +24,21 @@ public class GlobalHandlerInterceptor extends WebMvcConfigurerAdapter implements
         registry.addInterceptor(this).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
-    
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        System.out.println("-------GlobalHandlerInterceptor.preHandle------");
+        System.out.println("-------GlobalHandlerInterceptor.preHandle------" + httpServletRequest.getRequestURI());
         return true;
     }
-    
+
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        System.out.println("-------GlobalHandlerInterceptor.postHandle------");
+//        System.out.println("-------GlobalHandlerInterceptor.postHandle------");
     }
-    
+
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-        System.out.println("-------GlobalHandlerInterceptor.afterCompletion------");
-        
+//        System.out.println("-------GlobalHandlerInterceptor.afterCompletion------");
+
     }
 }

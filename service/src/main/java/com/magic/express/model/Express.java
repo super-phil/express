@@ -27,6 +27,7 @@ public class Express implements Serializable {
     private String type;
     private int price;
     private int status;
+    private int mark;//标记 是否异常
     private String desc;
     private Date createTime;
     private Date updateTime;

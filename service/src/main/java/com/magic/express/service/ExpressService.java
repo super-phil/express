@@ -76,6 +76,10 @@ public class ExpressService {
     }
 
     public Object updateUrl(String number, String url) throws BusinessException {
-        return expressDao.updateUrl(number,url);
+        return expressDao.updateUrl(number, url);
+    }
+
+    public Object updateMark(String id, int mark) throws BusinessException {
+        return expressDao.updateMark(id, mark);
     }
 }

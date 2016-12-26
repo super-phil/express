@@ -11,6 +11,8 @@ CREATE TABLE `express` (
   COMMENT '价格',
   `status`      INT(11)      DEFAULT 0
   COMMENT '状态[0:未上交,1:已上交]',
+  `mark`      INT(11)      DEFAULT 0
+  COMMENT '状态[0:正常,1:异常]',
   `type`        VARCHAR(4)   DEFAULT NULL
   COMMENT '类型',
   `url`         VARCHAR(256) DEFAULT NULL

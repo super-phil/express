@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -118,14 +117,17 @@ public class ExpressDao {
         String qc;
         if (!StringUtils.isEmpty(dtRequest.getQ())) {
             q = "%" + dtRequest.getQ() + "%";
-            qs = "SELECT * FROM express WHERE number LIKE ? ORDER BY create_time DESC,price DESC LIMIT ?,?";
+            qs = "SELECT * FROM express WHERE number LIKE ? ORDER BY id LIMIT ?,?";
             qc = "SELECT count(1) FROM express WHERE number LIKE ? ";
+        } else if (Constant.Type.MARK.getType().equals(type)) {
+            q = "1";
+            qs = "SELECT * FROM express WHERE mark=? ORDER BY id DESC LIMIT ?,?";
+            qc = "SELECT count(1) FROM express WHERE mark=? ";
         } else {
             q = type;
-            qs = "SELECT * FROM express WHERE type=? ORDER BY create_time DESC,price DESC LIMIT ?,?";
+            qs = "SELECT * FROM express WHERE type=? ORDER BY id DESC LIMIT ?,?";
             qc = "SELECT count(1) FROM express WHERE type = ? ";
         }
-
         try {
             Integer count = jdbcTemplate.queryForObject(qc, new Object[]{q}, Integer.class);
             DTResponse<Map<String, Object>> response = new DTResponse<>();
@@ -216,6 +218,23 @@ public class ExpressDao {
     public Object updateUrl(String number, String url) throws BusinessException {
         try {
             return jdbcTemplate.update("UPDATE express SET url=? WHERE number=?", new Object[]{url, number});
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    /**
+     * 更新mark
+     *
+     * @param id   id
+     * @param mark 标记
+     * @return
+     * @throws BusinessException
+     */
+    public Object updateMark(String id, int mark) throws BusinessException {
+        try {
+            return jdbcTemplate.update("UPDATE express SET mark=? WHERE id=?", new Object[]{mark, id});
         } catch (BusinessException e) {
             e.printStackTrace();
             throw new BusinessException(e.getMessage());

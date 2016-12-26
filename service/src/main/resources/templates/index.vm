@@ -51,6 +51,7 @@
                                             <option value="w">微信</option>
                                             <option value="q">欠款</option>
                                             <option value="d">代收</option>
+                                            <option value="mark">标记</option>
                                         </select>
                                     </div>
                                 </div>
@@ -206,12 +207,14 @@
                 success: function (result) {
                     var trs = '';
                     $.each(result.data, function (i, v) {
-                        if (i % 2 == 0) {
-                            trs += '<tr style="background-color:#bce8f1">';
+                        if (v.mark == 1) {
+                            trs += '<tr style="background-color:#CCCCCC">';
+                        } else if (i % 2 == 0) {
+                            trs += '<tr style="background-color:#CCCCFF">';
                         } else {
                             trs += '<tr>';
                         }
-                        trs += '<td><a  href="'+v.url+'">' + v.number + '</a></td>';
+                        trs += '<td><a href="' + v.url + '">' + v.number + '</a></td>';
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
                         if (v.status == 1) {
@@ -219,9 +222,14 @@
                         } else {
                             trs += '<td>未上交</td>';
                         }
-                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd") + '</td>';
+                        trs += '<td>' + new Date(v.create_time).format("yyyy-MM-dd HH:mm") + '</td>';
                         trs += '<td>' + v.desc + '</td>';
                         trs += "<td style='text-align: center'>";
+                        if (v.mark == 0) {
+                            trs += ' <button type="button" class="btn-mark btn btn-xs btn-info" data-id="' + v.id + '" data-number="' + v.number + '" >标记</button> &nbsp;&nbsp;';
+                        } else {
+                            trs += ' <button type="button" class="btn-unmark btn btn-xs btn-info" data-id="' + v.id + '" data-number="' + v.number + '" >取消</button> &nbsp;&nbsp;';
+                        }
                         if (v.status == 0) {
                             trs += ' <button type="button" class="btn-edit btn btn-xs btn-primary" data-id="' + v.id + '" data-number="' + v.number + '" data-type="' + v.type + '" data-price="' + v.price + '" data-desc="' + v.desc + '">编辑</button> &nbsp;&nbsp;';
                         }
@@ -410,6 +418,64 @@
                             success: function (result) {
                                 refresh();
                                 setChart(result);
+                                swal.close();
+                            }
+                        });
+                    });
+
+        });
+        /***
+         * 标记
+         */
+        $(document).on('click', ".btn-mark", function (e) {
+            var oThis = $(this);
+            swal({
+                        title: "确认标记?",
+                        type: "warning",
+                        text: "单号:" + oThis.data("number"),
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'POST',
+                            data: {'id': oThis.data('id'), 'mark': 1},
+                            url: "/express/mark",
+                            dataType: 'json',
+                            success: function (result) {
+                                refresh();
+                                swal.close();
+                            }
+                        });
+                    });
+
+        });
+        /***
+         * 取消标记
+         */
+        $(document).on('click', ".btn-unmark", function (e) {
+            var oThis = $(this);
+            swal({
+                        title: "确认取消标记?",
+                        type: "warning",
+                        text: "单号:" + oThis.data("number"),
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'POST',
+                            data: {'id': oThis.data('id'), 'mark': 0},
+                            url: "/express/mark",
+                            dataType: 'json',
+                            success: function (result) {
+                                refresh();
                                 swal.close();
                             }
                         });

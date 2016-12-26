@@ -189,11 +189,19 @@ public class ExpressController {
      */
     @RequestMapping(value = "upload/url", method = RequestMethod.POST)
     public Object uploadUrl(@RequestParam String number, @RequestParam String url) {
-        return expressService.updateUrl(number,url);
+        return expressService.updateUrl(number, url);
     }
 
-    public static void main(String[] args) {
-        System.out.println(Constant.Type.X.name().toLowerCase());
+    /**
+     * 更新mark
+     *
+     * @param id   id
+     * @param mark mark
+     * @return
+     */
+    @RequestMapping(value = "mark", method = RequestMethod.POST)
+    public Object updateMark(@RequestParam String id, @RequestParam int mark) {
+        return expressService.updateMark(id, mark);
     }
 
 }
