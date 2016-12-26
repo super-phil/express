@@ -23,8 +23,12 @@
     </style>
 </head>
 <body style="min-width: 230px">
-
-<div class="container-full">
+<div class="container-full" id="img-div" style="display:none;text-align: center">
+    <img id="img" class="img-responsive">
+    <hr>
+    <button type="button" class="btn-close btn btn-xs btn-info">关闭</button>
+</div>
+<div class="container-full" id="data-div">
     <div class="row row-table">
         <div class="col-xs-12 col-sm-12 col-md-12 ">
             <div class="panel panel-info">
@@ -214,7 +218,7 @@
                         } else {
                             trs += '<tr>';
                         }
-                        trs += '<td><a href="' + v.url + '">' + v.number + '</a></td>';
+                        trs += '<td class="show-img" data-href="' + v.url + '">' + v.number + '</td>';
                         trs += '<td>' + v.type + '</td>';
                         trs += '<td>' + v.price + '</td>';
                         if (v.status == 1) {
@@ -481,6 +485,29 @@
                         });
                     });
 
+        });
+        /***
+         * 显示图片
+         */
+        $(document).on('click', ".show-img", function (e) {
+            var oThis = $(this);
+            var img = oThis.data("href");
+            if (img == undefined || img == "undefined") {
+                $('#img').attr('src', "http://ognsbr72y.bkt.clouddn.com/icon.png");
+            } else {
+                $('#img').attr('src', img);
+            }
+            $("#img-div").show();
+            $("#data-div").hide();
+        });
+        /***
+         * 关闭
+         */
+        $(document).on('click', ".btn-close", function (e) {
+            var oThis = $(this);
+            $("#img-div").hide();
+            $('#img').attr('src', "http://ognsbr72y.bkt.clouddn.com/icon.png");
+            $("#data-div").show();
         });
         function refresh() {
             var data = {};
