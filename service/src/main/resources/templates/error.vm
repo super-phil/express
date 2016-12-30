@@ -1,1 +1,5 @@
-error.vm
+<form action="form_action.asp" method="get">
+    <p>First name: <input type="text" name="fname" /></p>
+    <p>Last name: <input type="file" name="lname" /></p>
+    <input type="submit" value="Submit" />
+</form>

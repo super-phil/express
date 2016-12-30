@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 
@@ -28,8 +29,7 @@ public class App {
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public Object list() {
-        String key = "IMG_20161114_153251.jpg";
-        return QiNiuUtils.del(key);
+        return new ModelAndView("error");
     }
 
     @RequestMapping(value = "apk", method = RequestMethod.GET)
